@@ -5,9 +5,9 @@ function PlaceCard(cardKey: number): JSX.Element{
         <span>Premium</span>
       </div>
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <button>
+        <a href="main.html">
           <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place"/>
-        </button>
+        </a>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -29,7 +29,7 @@ function PlaceCard(cardKey: number): JSX.Element{
           </div>
         </div>
         <h2 className="place-card__name">
-          <button>Beautiful &amp; luxurious apartment at great location</button>
+          <a href="main.html">Beautiful &amp; luxurious apartment at great location</a>
         </h2>
         <p className="place-card__type">Apartment</p>
       </div>
