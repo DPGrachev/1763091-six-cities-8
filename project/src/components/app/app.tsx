@@ -15,18 +15,18 @@ function App({placeCardsCount}: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path={AppRoute.MAIN}>
+        <Route exact path={AppRoute.Main}>
           <MainScreen placeCardsCount={placeCardsCount} />
         </Route>
-        <Route exact path={AppRoute.LOGIN}>
+        <Route exact path={AppRoute.Login}>
           <LoginScreen />
         </Route>
-        <Route exact path={AppRoute.ROOM}>
+        <Route exact path={AppRoute.Room}>
           <RoomScreen />
         </Route>
         <PrivateRoute
           exact
-          path={AppRoute.FAVORITES}
+          path={AppRoute.Favorites}
           render={() => <FavoritesScreen />}
           authorizationStatus={AuthorizationStatus.NoAuth}
         >

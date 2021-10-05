@@ -1,11 +1,11 @@
-enum AppRoute {
-  LOGIN = '/login',
-  FAVORITES = '/favorites',
-  ROOM = '/offer/:id',
-  MAIN = '/'
+const enum AppRoute {
+  Login = '/login',
+  Favorites = '/favorites',
+  Room = '/offer/:id',
+  Main = '/'
 }
 
-enum AuthorizationStatus {
+const enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
