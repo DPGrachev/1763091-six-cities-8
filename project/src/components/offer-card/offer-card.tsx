@@ -1,18 +1,31 @@
-function PlaceCard(cardKey: number): JSX.Element{
+import {Offer} from '../../types/offer';
+import {MouseEvent} from 'react';
+
+function OfferCard(offer: Offer, setIdActiveOffer : (a: number) => void): JSX.Element{
+  const {id, isPremium, previewImage, price, title} = offer;
   return (
-    <article className="cities__place-card place-card" key={cardKey}>
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div>
+    <article
+      className="cities__place-card place-card"
+      key={id}
+      onMouseOver={(event: MouseEvent<HTMLElement>) => {setIdActiveOffer(id);}}
+      onMouseOut={(event: MouseEvent<HTMLElement>) => {setIdActiveOffer(0);}}
+    >
+      {
+        isPremium?
+          <div className="place-card__mark">
+            <span>Premium</span>
+          </div>
+          : ''
+      }
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="main.html">
-          <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place"/>
+          <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place"/>
         </a>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;120</b>
+            <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button className="place-card__bookmark-button button" type="button">
@@ -29,11 +42,11 @@ function PlaceCard(cardKey: number): JSX.Element{
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="main.html">Beautiful &amp; luxurious apartment at great location</a>
+          <a href="main.html">{title}</a>
         </h2>
         <p className="place-card__type">Apartment</p>
       </div>
     </article>);
 }
 
-export default PlaceCard;
+export default OfferCard;
