@@ -1,11 +1,12 @@
-import PlaceCard from '../place-card/place-card';
+import OffersList from '../offers-list/offers-list';
 import Logo from '../logo/logo';
+import {Offer} from '../../types/offer';
 
 type MainScreenProps = {
-  placeCardsCount: number;
+  offers: Offer[];
 };
 
-function MainScreen({placeCardsCount}: MainScreenProps): JSX.Element {
+function MainScreen({offers}: MainScreenProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -76,7 +77,7 @@ function MainScreen({placeCardsCount}: MainScreenProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{placeCardsCount} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -86,9 +87,7 @@ function MainScreen({placeCardsCount}: MainScreenProps): JSX.Element {
                   </svg>
                 </span>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {new Array(placeCardsCount).fill(PlaceCard).map((placeCard, i) => placeCard(i))}
-              </div>
+              <OffersList offers={offers}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>

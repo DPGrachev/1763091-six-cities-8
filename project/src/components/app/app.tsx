@@ -6,29 +6,30 @@ import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {Switch, Route, BrowserRouter} from 'react-router-dom';
 import PrivateRoute from '../private-route/private-route';
 import {AppRoute, AuthorizationStatus} from '../../const';
+import {Offer} from '../../types/offer';
 
 type AppScreenProps = {
-  placeCardsCount: number;
+  offers: Offer[];
 }
 
-function App({placeCardsCount}: AppScreenProps): JSX.Element {
+function App({offers}: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <MainScreen placeCardsCount={placeCardsCount} />
+          <MainScreen offers={offers} />
         </Route>
         <Route exact path={AppRoute.Login}>
           <LoginScreen />
         </Route>
         <Route exact path={AppRoute.Room}>
-          <RoomScreen />
+          <RoomScreen offers={offers}/>
         </Route>
         <PrivateRoute
           exact
           path={AppRoute.Favorites}
-          render={() => <FavoritesScreen />}
-          authorizationStatus={AuthorizationStatus.NoAuth}
+          render={() => <FavoritesScreen offers={offers}/>}
+          authorizationStatus={AuthorizationStatus.Auth}
         >
         </PrivateRoute>
         <Route>
