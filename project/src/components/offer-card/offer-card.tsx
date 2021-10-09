@@ -2,22 +2,25 @@ import {Offer} from '../../types/offer';
 import {MouseEvent} from 'react';
 import {Link} from 'react-router-dom';
 
-function OfferCard(offer: Offer, setIdActiveOffer : (a: number) => void): JSX.Element{
-  const {id, isPremium, previewImage, price, title} = offer;
+type OfferCardProps = {
+  offer: Offer,
+  setIdActiveOffer: (a: number) => void;
+}
+
+function OfferCard(props: OfferCardProps): JSX.Element{
+  const {id, isPremium, previewImage, price, title} = props.offer;
 
   return (
     <article
       className="cities__place-card place-card"
-      key={id}
-      onMouseOver={(event: MouseEvent<HTMLElement>) => {setIdActiveOffer(id);}}
-      onMouseOut={(event: MouseEvent<HTMLElement>) => {setIdActiveOffer(0);}}
+      onMouseOver={(event: MouseEvent<HTMLElement>) => {props.setIdActiveOffer(id);}}
+      onMouseOut={(event: MouseEvent<HTMLElement>) => {props.setIdActiveOffer(0);}}
     >
       {
-        isPremium?
+        isPremium &&
           <div className="place-card__mark">
             <span>Premium</span>
           </div>
-          : ''
       }
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="main.html">

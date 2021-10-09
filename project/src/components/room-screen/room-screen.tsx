@@ -4,8 +4,6 @@ import {useParams, Link} from 'react-router-dom';
 import { AppRoute } from '../../const';
 import NewCommentForm from '../new-comment-form/new-comment-form';
 
-const FIRST_ARRAY_ELEMENT = 0;
-
 type RoomScreenProps = {
   offers: Offer[];
 }
@@ -14,15 +12,10 @@ type Params = {
   id: string;
 }
 
-const getFeature = (feature: string) => (
-  <li className="property__inside-item" key={feature}>
-    {feature}
-  </li>);
-
 function RoomScreen({offers}: RoomScreenProps): JSX.Element {
   const params: Params = useParams();
   const currentRoomId = Number(params.id);
-  const currentRoom = offers.filter((offer) => offer.id === currentRoomId)[FIRST_ARRAY_ELEMENT];
+  const currentRoom = offers.find((offer)=> offer.id === currentRoomId) as Offer;
   const {price, goods, title} = currentRoom;
 
   return (
@@ -113,7 +106,10 @@ function RoomScreen({offers}: RoomScreenProps): JSX.Element {
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  {goods.map((feature) => getFeature(feature))}
+                  {goods.map((feature) => (
+                    <li className="property__inside-item" key={feature}>
+                      {feature}
+                    </li>))}
                 </ul>
               </div>
               <div className="property__host">

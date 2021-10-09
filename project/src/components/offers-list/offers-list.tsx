@@ -13,7 +13,7 @@ function OffersList({offers}: OffersListProps): JSX.Element {
     <>
       <h1>{idActiveOffer} - id активной карточки</h1>
       <div className="cities__places-list places__list tabs__content">
-        {new Array(offers.length).fill(OfferCard).map((offerCard, i) => offerCard(offers[i],setIdActiveOffer))}
+        {offers.map((offerCard) => <OfferCard  key={offerCard.id} setIdActiveOffer={setIdActiveOffer} offer={offerCard}/>)}
       </div>
     </>
   );

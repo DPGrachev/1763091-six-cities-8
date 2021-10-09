@@ -51,7 +51,7 @@ function FavoritesScreen({offers}: FavoriteScreenProps): JSX.Element{
                   </div>
                 </div>
                 <div className="favorites__places">
-                  {new Array(offers.length).fill(FavoriteOfferCard).map((favoriteOfferCard, i) => favoriteOfferCard(offers[i]))}
+                  {offers.map((favoriteOfferCard) => <FavoriteOfferCard key={favoriteOfferCard.id} offer={favoriteOfferCard}/>)}
                 </div>
               </li>
             </ul>

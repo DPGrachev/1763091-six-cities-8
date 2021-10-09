@@ -1,10 +1,14 @@
 import {Offer} from '../../types/offer';
 
-function FavoriteOfferCard(offer: Offer): JSX.Element{
-  const {id, previewImage, price, title} = offer;
+type FavoriteOfferCardProps = {
+  offer: Offer;
+}
+
+function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element{
+  const {previewImage, price, title} = offer;
 
   return (
-    <article className="favorites__card place-card" key={id}>
+    <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
         <a href="/">
           <img className="place-card__image" src={previewImage} width="150" height="110" alt="Place"/>
