@@ -1,6 +1,30 @@
 import Logo from '../logo/logo';
+import {Offer} from '../../types/offer';
+import {useParams, Link} from 'react-router-dom';
+import { AppRoute } from '../../const';
+import NewCommentForm from '../new-comment-form/new-comment-form';
 
-function RoomScreen(): JSX.Element {
+const FIRST_ARRAY_ELEMENT = 0;
+
+type RoomScreenProps = {
+  offers: Offer[];
+}
+
+type Params = {
+  id: string;
+}
+
+const getFeature = (feature: string) => (
+  <li className="property__inside-item" key={feature}>
+    {feature}
+  </li>);
+
+function RoomScreen({offers}: RoomScreenProps): JSX.Element {
+  const params: Params = useParams();
+  const currentRoomId = Number(params.id);
+  const currentRoom = offers.filter((offer) => offer.id === currentRoomId)[FIRST_ARRAY_ELEMENT];
+  const {price, goods, title} = currentRoom;
+
   return (
     <div className="page">
       <header className="header">
@@ -12,11 +36,11 @@ function RoomScreen(): JSX.Element {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="favorites.html">
+                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Login}>
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__login">Sign in</span>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </nav>
@@ -55,7 +79,7 @@ function RoomScreen(): JSX.Element {
               </div>
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-             Beautiful &amp; luxurious studio at great location
+                  {title}
                 </h1>
                 <button className="property__bookmark-button button" type="button">
                   <svg className="property__bookmark-icon" width="31" height="33">
@@ -83,42 +107,13 @@ function RoomScreen(): JSX.Element {
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;120</b>
+                <b className="property__price-value">&euro;{price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  <li className="property__inside-item">
-               Wi-Fi
-                  </li>
-                  <li className="property__inside-item">
-               Washing machine
-                  </li>
-                  <li className="property__inside-item">
-               Towels
-                  </li>
-                  <li className="property__inside-item">
-               Heating
-                  </li>
-                  <li className="property__inside-item">
-               Coffee machine
-                  </li>
-                  <li className="property__inside-item">
-               Baby seat
-                  </li>
-                  <li className="property__inside-item">
-               Kitchen
-                  </li>
-                  <li className="property__inside-item">
-               Dishwasher
-                  </li>
-                  <li className="property__inside-item">
-               Cabel TV
-                  </li>
-                  <li className="property__inside-item">
-               Fridge
-                  </li>
+                  {goods.map((feature) => getFeature(feature))}
                 </ul>
               </div>
               <div className="property__host">
@@ -169,6 +164,7 @@ function RoomScreen(): JSX.Element {
                     </div>
                   </li>
                 </ul>
+                <NewCommentForm />
               </section>
             </div>
           </div>

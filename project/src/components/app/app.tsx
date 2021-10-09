@@ -23,7 +23,7 @@ function App({offers}: AppScreenProps): JSX.Element {
           <LoginScreen />
         </Route>
         <Route exact path={AppRoute.Room}>
-          <RoomScreen />
+          <RoomScreen offers={offers}/>
         </Route>
         <PrivateRoute
           exact

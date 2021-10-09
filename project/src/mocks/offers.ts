@@ -45,7 +45,7 @@ const offers: Offer[] = [
       'name': 'Amsterdam',
     },
     'description': 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
-    'goods': ['Heating', 'Kitchen', 'Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
+    'goods': ['Heating', 'Kitchen', 'Coffee machine', 'Dishwasher'],
     'host': {
       'avatar_url': 'img/1.png',
       'id': 3,
@@ -78,7 +78,7 @@ const offers: Offer[] = [
       'name': 'Amsterdam',
     },
     'description': 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
-    'goods': ['Heating', 'Kitchen', 'Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
+    'goods': ['Kitchen', 'Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
     'host': {
       'avatar_url': 'img/apartment-03.jpg',
       'id': 3,

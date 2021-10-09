@@ -1,8 +1,10 @@
 import {Offer} from '../../types/offer';
 import {MouseEvent} from 'react';
+import {Link} from 'react-router-dom';
 
 function OfferCard(offer: Offer, setIdActiveOffer : (a: number) => void): JSX.Element{
   const {id, isPremium, previewImage, price, title} = offer;
+
   return (
     <article
       className="cities__place-card place-card"
@@ -42,7 +44,7 @@ function OfferCard(offer: Offer, setIdActiveOffer : (a: number) => void): JSX.El
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="main.html">{title}</a>
+          <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">Apartment</p>
       </div>
