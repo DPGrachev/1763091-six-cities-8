@@ -5,8 +5,9 @@ import { Offer, Location } from '../../types/offer';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
-  city: Location;
-  offers: Offer[];
+  city: Location,
+  offers: Offer[],
+  idActiveOffer: number | null;
 };
 
 const defaultCustomIcon = new Icon({
@@ -15,8 +16,14 @@ const defaultCustomIcon = new Icon({
   iconAnchor: [20, 40],
 });
 
+const currentCustomIcon = new Icon({
+  iconUrl: 'img/pin-active.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
 function Map(props: MapProps): JSX.Element {
-  const {city, offers} = props;
+  const {city, offers, idActiveOffer} = props;
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
@@ -30,11 +37,15 @@ function Map(props: MapProps): JSX.Element {
         });
 
         marker
-          .setIcon(defaultCustomIcon)
+          .setIcon(
+            idActiveOffer !== null && offer.id === idActiveOffer
+              ? currentCustomIcon
+              : defaultCustomIcon,
+          )
           .addTo(map);
       });
     }
-  }, [map, offers]);
+  }, [map, offers, idActiveOffer]);
 
   return <section ref={mapRef} className="cities__map map"></section>;
 }
