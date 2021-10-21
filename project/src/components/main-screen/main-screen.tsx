@@ -1,6 +1,7 @@
 import OffersList from '../offers-list/offers-list';
 import Logo from '../logo/logo';
 import {Offer} from '../../types/offer';
+import Map from '../map/map';
 
 type MainScreenProps = {
   offers: Offer[];
@@ -90,7 +91,7 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
               <OffersList offers={offers}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map city={offers[0].city.location} offers={offers}/>
             </div>
           </div>
         </div>
