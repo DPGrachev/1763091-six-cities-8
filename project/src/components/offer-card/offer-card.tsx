@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 
 type OfferCardProps = {
   offer: Offer,
-  setIdActiveOffer: (a: number) => void;
+  setIdActiveOffer: (a: number|null) => void;
 }
 
 function OfferCard(props: OfferCardProps): JSX.Element{
@@ -14,7 +14,7 @@ function OfferCard(props: OfferCardProps): JSX.Element{
     <article
       className="cities__place-card place-card"
       onMouseOver={(event: MouseEvent<HTMLElement>) => {props.setIdActiveOffer(id);}}
-      onMouseOut={(event: MouseEvent<HTMLElement>) => {props.setIdActiveOffer(0);}}
+      onMouseOut={(event: MouseEvent<HTMLElement>) => {props.setIdActiveOffer(null);}}
     >
       {
         isPremium &&

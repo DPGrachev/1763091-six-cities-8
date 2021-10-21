@@ -1,12 +1,16 @@
 import OffersList from '../offers-list/offers-list';
 import Logo from '../logo/logo';
-import {Offer} from '../../types/offer';
+import { Offer } from '../../types/offer';
+import Map from '../map/map';
+import { useState } from 'react';
 
 type MainScreenProps = {
   offers: Offer[];
 };
 
 function MainScreen({offers}: MainScreenProps): JSX.Element {
+  const [idActiveOffer, setIdActiveOffer] = useState<null | number>(null);
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -87,10 +91,10 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
                   </svg>
                 </span>
               </form>
-              <OffersList offers={offers}/>
+              <OffersList offers={offers} setIdActiveOffer={setIdActiveOffer}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map city={offers[0].city.location} offers={offers} idActiveOffer={idActiveOffer}/>
             </div>
           </div>
         </div>
