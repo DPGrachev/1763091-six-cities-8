@@ -3,7 +3,7 @@ import {Offer} from '../../types/offer';
 
 type OffersListProps = {
   offers: Offer[],
-  setIdActiveOffer?: (a: number|null) => void,
+  setIdActiveOffer?: (offer: number|null) => void,
   isRoomScreenOffersList?: boolean,
 };
 

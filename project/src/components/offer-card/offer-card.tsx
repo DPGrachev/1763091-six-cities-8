@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 type OfferCardProps = {
   offer: Offer,
-  setIdActiveOffer?: (a: number|null) => void;
+  setIdActiveOffer?: (offer: number|null) => void;
 }
 
 function OfferCard(props: OfferCardProps): JSX.Element{
