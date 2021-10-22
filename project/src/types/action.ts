@@ -1,5 +1,3 @@
-import { Offer } from './offer';
-
 const enum ActionType {
   SetCity = 'main-screen/set-city',
   SetOffers = 'main-screen/set-offers'
@@ -7,12 +5,11 @@ const enum ActionType {
 
 type SetCity = {
   type: ActionType.SetCity,
-  city: string,
+  currentCity: string,
 };
 
 type SetOffers = {
   type: ActionType.SetOffers,
-  offers: Offer[],
 };
 
 type Actions = SetCity | SetOffers

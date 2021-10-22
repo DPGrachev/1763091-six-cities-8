@@ -3,18 +3,20 @@ import { Actions, ActionType } from '../types/action';
 import { offers } from '../mocks/offers';
 import { CitiesNames } from '../const';
 
+const getOffersInCurrentCity = (cityName:string) => offers.slice().filter((offer) => offer.city.name === cityName);
+
 const initialState : State = {
-  city: CitiesNames.Amsterdam,
-  offers: offers,
+  currentCity: CitiesNames.Paris,
+  offers: getOffersInCurrentCity(CitiesNames.Paris),
 };
 
 const reducer = (state : State = initialState, action: Actions): State => {
   switch(action.type){
     case ActionType.SetCity: {
-      return {...state, city: action.city};
+      return {...state, currentCity: action.currentCity};
     }
     case ActionType.SetOffers: {
-      return {...state, offers: action.offers};
+      return {...state, offers: getOffersInCurrentCity(state.currentCity)};
     }
     default: {
       return state;
