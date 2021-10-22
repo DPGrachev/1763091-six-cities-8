@@ -7,7 +7,8 @@ import 'leaflet/dist/leaflet.css';
 type MapProps = {
   city: Location,
   offers: Offer[],
-  idActiveOffer: number | null;
+  idActiveOffer?: number | null;
+  isRoomScreenMap?: boolean;
 };
 
 const defaultCustomIcon = new Icon({
@@ -23,7 +24,7 @@ const currentCustomIcon = new Icon({
 });
 
 function Map(props: MapProps): JSX.Element {
-  const {city, offers, idActiveOffer} = props;
+  const {city, offers, idActiveOffer, isRoomScreenMap} = props;
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
@@ -47,7 +48,7 @@ function Map(props: MapProps): JSX.Element {
     }
   }, [map, offers, idActiveOffer]);
 
-  return <section ref={mapRef} className="cities__map map"></section>;
+  return <section ref={mapRef} className={isRoomScreenMap ? 'property__map map' : 'cities__map map'}></section>;
 }
 
 export default Map;
