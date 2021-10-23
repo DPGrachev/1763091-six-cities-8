@@ -5,6 +5,7 @@ import { useState } from 'react';
 import CitiesList from '../cities-list/cities-list';
 import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../types/state';
+import { Offer } from '../../types/offer';
 
 const getCitiesCoordinates = (city:string) => {
   switch(city){
@@ -20,16 +21,20 @@ const getCitiesCoordinates = (city:string) => {
   }
 };
 
-const mapStateToProps = ({currentCity, offers}:State) => ({
+type MainScreenProps = {
+  offers: Offer[],
+}
+
+const mapStateToProps = ({currentCity}:State) => ({
   currentCity,
-  offers,
 });
 
 const connector = connect(mapStateToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & MainScreenProps;
 
-function MainScreen({offers, currentCity}: PropsFromRedux): JSX.Element {
+function MainScreen({offers, currentCity}: ConnectedComponentProps): JSX.Element {
   const [idActiveOffer, setIdActiveOffer] = useState<null | number>(null);
 
   return (
@@ -91,3 +96,4 @@ function MainScreen({offers, currentCity}: PropsFromRedux): JSX.Element {
 }
 
 export default connector(MainScreen);
+export {MainScreen};
