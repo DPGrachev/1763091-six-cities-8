@@ -5,7 +5,9 @@ const enum ActionType {
 
 type SetCity = {
   type: ActionType.SetCity,
-  currentCity: string,
+  payload: {
+    currentCity: string,
+  },
 };
 
 type SetOffers = {

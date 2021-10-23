@@ -79,7 +79,7 @@ function MainScreen({offers, currentCity}: PropsFromRedux): JSX.Element {
                   </svg>
                 </span>
               </form>
-              <OffersList offers={offers} setIdActiveOffer={setIdActiveOffer}/>
+              <OffersList offers={offers} onCardFocus={setIdActiveOffer}/>
             </section>
             <div className="cities__right-section">
               <Map city={getCitiesCoordinates(currentCity)} offers={offers} idActiveOffer={idActiveOffer}/>

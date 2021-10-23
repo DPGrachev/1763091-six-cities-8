@@ -11,7 +11,7 @@ const enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-const enum CitiesNames {
+enum CitiesNames {
   Paris = 'Paris',
   Cologne = 'Cologne',
   Brussels = 'Brussels',

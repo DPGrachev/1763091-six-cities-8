@@ -2,7 +2,9 @@ import { ActionType, SetCity, SetOffers } from '../types/action';
 
 const setCity = (cityName:string) : SetCity => ({
   type: ActionType.SetCity,
-  currentCity: cityName,
+  payload: {
+    currentCity: cityName,
+  },
 });
 
 const setOffers = () : SetOffers => ({

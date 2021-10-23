@@ -3,19 +3,20 @@ import {Link} from 'react-router-dom';
 
 type OfferCardProps = {
   offer: Offer,
-  setIdActiveOffer?: (offer: number|null) => void;
+  onCardFocus?: (offer: number|null) => void;
 }
 
 function OfferCard(props: OfferCardProps): JSX.Element{
   const {id, isPremium, previewImage, price, title} = props.offer;
+
   const handleMouseOver = () => {
-    if(props.setIdActiveOffer){
-      props.setIdActiveOffer(id);
+    if(props.onCardFocus){
+      props.onCardFocus(id);
     }
   };
   const handleMouseOut = () => {
-    if(props.setIdActiveOffer){
-      props.setIdActiveOffer(null);
+    if(props.onCardFocus){
+      props.onCardFocus(null);
     }
   };
 
