@@ -3,7 +3,7 @@ import {connect, ConnectedProps} from 'react-redux';
 import {Actions} from '../../types/action';
 import {setCity, setOffers} from '../../store/action';
 import {MouseEvent} from 'react';
-import {CitiesNames} from '../../const';
+import {CityName} from '../../const';
 import CityItem from '../city-item/city-item';
 
 type CitiesListProps = {
@@ -30,7 +30,7 @@ function CitiesList ({currentCity, HandleCityChange}:ConnectedComponentProps): J
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">
-        {Object.values(CitiesNames).map((city) => <CityItem key={city} city={city} currentCity={currentCity} onCityChange={HandleCityChange}/>)}
+        {Object.values(CityName).map((city) => <CityItem key={city} city={city} currentCity={currentCity} onCityClick={HandleCityChange}/>)}
       </ul>
     </section>);
 }

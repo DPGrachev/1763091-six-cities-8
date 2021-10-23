@@ -1,4 +1,5 @@
-import { ActionType, SetCity, SetOffers } from '../types/action';
+import { SetCity, SetOffers, SetSortOption } from '../types/action';
+import { ActionType } from '../const';
 
 const setCity = (cityName:string) : SetCity => ({
   type: ActionType.SetCity,
@@ -11,4 +12,11 @@ const setOffers = () : SetOffers => ({
   type: ActionType.SetOffers,
 });
 
-export {setCity, setOffers};
+const setSortOption = (sortOption: string) : SetSortOption => ({
+  type: ActionType.SetSortOption,
+  payload: {
+    currentSortOption: sortOption,
+  },
+});
+
+export {setCity, setOffers, setSortOption};

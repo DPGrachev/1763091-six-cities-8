@@ -1,7 +1,4 @@
-const enum ActionType {
-  SetCity = 'main-screen/set-city',
-  SetOffers = 'main-screen/set-offers'
-}
+import { ActionType } from '../const';
 
 type SetCity = {
   type: ActionType.SetCity,
@@ -14,7 +11,13 @@ type SetOffers = {
   type: ActionType.SetOffers,
 };
 
-type Actions = SetCity | SetOffers
+type SetSortOption = {
+  type: ActionType.SetSortOption,
+  payload: {
+    currentSortOption: string,
+  },
+}
 
-export type {SetCity, SetOffers, Actions};
-export {ActionType};
+type Actions = SetCity | SetOffers | SetSortOption
+
+export type {SetCity, SetOffers, SetSortOption, Actions};
