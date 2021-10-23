@@ -31,6 +31,7 @@ function Map(props: MapProps): JSX.Element {
 
   useEffect(() => {
     if (map) {
+      map.flyTo([city.latitude,city.longitude],city.zoom);
       offers.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
@@ -46,7 +47,7 @@ function Map(props: MapProps): JSX.Element {
           .addTo(map);
       });
     }
-  }, [map, offers, idActiveOffer]);
+  }, [city,map, offers, idActiveOffer]);
 
   return <section ref={mapRef} className={isRoomScreenMap ? 'property__map map' : 'cities__map map'}></section>;
 }

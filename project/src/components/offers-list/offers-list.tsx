@@ -3,15 +3,15 @@ import {Offer} from '../../types/offer';
 
 type OffersListProps = {
   offers: Offer[],
-  setIdActiveOffer?: (a: number|null) => void,
+  onCardFocus?: (offer: number|null) => void,
   isRoomScreenOffersList?: boolean,
 };
 
-function OffersList({offers, setIdActiveOffer, isRoomScreenOffersList}: OffersListProps): JSX.Element {
+function OffersList({offers, onCardFocus, isRoomScreenOffersList}: OffersListProps): JSX.Element {
 
   return (
     <div className={isRoomScreenOffersList ? 'near-places__list places__list' : 'cities__places-list places__list tabs content'}>
-      {offers.map((offerCard) => <OfferCard  key={offerCard.id} setIdActiveOffer={setIdActiveOffer} offer={offerCard}/>)}
+      {offers.map((offerCard) => <OfferCard  key={offerCard.id} onCardFocus={onCardFocus} offer={offerCard}/>)}
     </div>
   );
 }

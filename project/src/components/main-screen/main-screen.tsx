@@ -1,14 +1,35 @@
 import OffersList from '../offers-list/offers-list';
 import Logo from '../logo/logo';
-import { Offer } from '../../types/offer';
 import Map from '../map/map';
 import { useState } from 'react';
+import CitiesList from '../cities-list/cities-list';
+import {connect, ConnectedProps} from 'react-redux';
+import {State} from '../../types/state';
 
-type MainScreenProps = {
-  offers: Offer[];
+const getCitiesCoordinates = (city:string) => {
+  switch(city){
+    case 'Paris':{
+      return {latitude: 48.8534,longitude: 2.3488,zoom: 10};
+    }
+    case 'Amsterdam':{
+      return {latitude: 52.3909553943508,longitude: 4.85309666406198,zoom: 10};
+    }
+    default :{
+      return {latitude: 52.3909553943508,longitude: 4.85309666406198,zoom: 10};
+    }
+  }
 };
 
-function MainScreen({offers}: MainScreenProps): JSX.Element {
+const mapStateToProps = ({currentCity, offers}:State) => ({
+  currentCity,
+  offers,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function MainScreen({offers, currentCity}: PropsFromRedux): JSX.Element {
   const [idActiveOffer, setIdActiveOffer] = useState<null | number>(null);
 
   return (
@@ -42,46 +63,13 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="main.html">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="main.html">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="main.html">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active" href="main.html">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="main.html">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="main.html">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
+          <CitiesList currentCity={currentCity}/>
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in {currentCity}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -91,10 +79,10 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
                   </svg>
                 </span>
               </form>
-              <OffersList offers={offers} setIdActiveOffer={setIdActiveOffer}/>
+              <OffersList offers={offers} onCardFocus={setIdActiveOffer}/>
             </section>
             <div className="cities__right-section">
-              <Map city={offers[0].city.location} offers={offers} idActiveOffer={idActiveOffer}/>
+              <Map city={getCitiesCoordinates(currentCity)} offers={offers} idActiveOffer={idActiveOffer}/>
             </div>
           </div>
         </div>
@@ -102,4 +90,4 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
     </div>);
 }
 
-export default MainScreen;
+export default connector(MainScreen);
