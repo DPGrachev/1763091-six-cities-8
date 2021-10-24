@@ -6,18 +6,23 @@ import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {Switch, Route, BrowserRouter} from 'react-router-dom';
 import PrivateRoute from '../private-route/private-route';
 import {AppRoute, AuthorizationStatus} from '../../const';
-import {Offer} from '../../types/offer';
+import {connect, ConnectedProps} from 'react-redux';
+import {State} from '../../types/state';
 
-type AppScreenProps = {
-  offers: Offer[];
-}
+const mapStateToProps = ({offers}:State) => ({
+  offers,
+});
 
-function App({offers}: AppScreenProps): JSX.Element {
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function App({offers}: PropsFromRedux): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <MainScreen />
+          <MainScreen offers={offers}/>
         </Route>
         <Route exact path={AppRoute.Login}>
           <LoginScreen />
@@ -40,4 +45,5 @@ function App({offers}: AppScreenProps): JSX.Element {
   );
 }
 
-export default App;
+export default connector(App);
+export {App};
