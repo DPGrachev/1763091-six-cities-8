@@ -8,11 +8,6 @@ import PrivateRoute from '../private-route/private-route';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../types/state';
-// import {Offer} from '../../types/offer';
-
-// type AppScreenProps = {
-//   offers: Offer[];
-// }
 
 const mapStateToProps = ({offers}:State) => ({
   offers,

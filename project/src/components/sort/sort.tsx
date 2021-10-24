@@ -5,27 +5,14 @@ import { setSortOption } from '../../store/action';
 import {Dispatch} from 'redux';
 import { Actions } from '../../types/action';
 import SortOptionItem from '../sort-option-item/sort-option-item';
-import { MouseEvent } from 'react';
-
-const handleSortListClick = () => {
-  const sortOptionsElement = document.querySelector('.places__options--custom');
-
-  if(sortOptionsElement){
-    sortOptionsElement.classList.toggle('places__options--opened');
-    sortOptionsElement.classList.toggle('places__options--closed');
-  }
-};
 
 const mapStateToProps = ({currentSortOption}:State) => ({
   currentSortOption,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  handleSortOptionChange(evt : MouseEvent<HTMLLIElement>, currentSortOption: string) {
-    if(evt.currentTarget.dataset.name && evt.currentTarget.dataset.name !== currentSortOption){
-      handleSortListClick();
-      dispatch(setSortOption(evt.currentTarget.dataset.name));
-    }
+  onSortOptionChange(currentSortOption: string) {
+    dispatch(setSortOption(currentSortOption));
   },
 });
 
@@ -33,7 +20,21 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function Sort ({currentSortOption, handleSortOptionChange}:PropsFromRedux): JSX.Element {
+function Sort ({currentSortOption, onSortOptionChange}:PropsFromRedux): JSX.Element {
+  const handleSortListClick = () => {
+    const sortOptionsElement = document.querySelector('.places__options--custom');
+
+    if(sortOptionsElement){
+      sortOptionsElement.classList.toggle('places__options--opened');
+      sortOptionsElement.classList.toggle('places__options--closed');
+    }
+  };
+
+  const handleSortOptionChange = (sortOption: string) => {
+    handleSortListClick();
+    onSortOptionChange(sortOption);
+  };
+
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by </span>
