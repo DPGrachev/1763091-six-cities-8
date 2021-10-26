@@ -53,8 +53,10 @@ const fetchOffersAction = (): ThunkActionResult =>
 const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     await api.get(APIRoute.Login)
-      .then(() => {
-        dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      .then((response) => {
+        if(response.data){
+          dispatch(requireAuthorization(AuthorizationStatus.Auth));
+        }
       });
   };
 
