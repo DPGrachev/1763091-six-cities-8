@@ -19,8 +19,6 @@ type ConnectedComponentProps = PropsFromRedux & PrivateRouteProps;
 
 function PrivateRoute(props: ConnectedComponentProps): JSX.Element {
   const {exact, path, render, authorizationStatus} = props;
-  // eslint-disable-next-line no-console
-  console.log(authorizationStatus);
   return (
     <Route
       exact={exact}

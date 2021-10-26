@@ -12,7 +12,6 @@ type CitiesListProps = {
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onCityChange(currentCity: string) {
     dispatch(setCity(currentCity));
-    // dispatch(setOffers());
   },
 });
 
