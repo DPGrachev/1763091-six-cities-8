@@ -1,3 +1,5 @@
+const ONE_STAR_RATING_PERCENT = 20;
+
 const enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
@@ -13,8 +15,16 @@ const enum AuthorizationStatus {
 
 const enum ActionType {
   SetCity = 'main-screen/set-city',
-  SetOffers = 'main-screen/set-offers',
-  SetSortOption = 'main-screen/set-sort-option'
+  SetSortOption = 'main-screen/set-sort-option',
+  SetOffers = 'data/set-offers',
+  RequireAuthorization = 'user/require-authorization',
+  RequireLogout = 'user/require-logout',
+}
+
+const enum APIRoute {
+  Offers = '/hotels',
+  Login = '/login',
+  Logout = '/logout',
 }
 
 enum CityName {
@@ -33,4 +43,4 @@ enum SortOption {
   TopRatedFirst = 'Top rated first',
 }
 
-export {AppRoute, AuthorizationStatus, ActionType, CityName, SortOption};
+export {ONE_STAR_RATING_PERCENT, AppRoute, AuthorizationStatus, ActionType, CityName, SortOption, APIRoute};

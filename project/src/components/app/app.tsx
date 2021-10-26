@@ -8,16 +8,26 @@ import PrivateRoute from '../private-route/private-route';
 import {AppRoute, AuthorizationStatus} from '../../const';
 import {connect, ConnectedProps} from 'react-redux';
 import {State} from '../../types/state';
+import LoadingScreen from '../loading/loading';
 
-const mapStateToProps = ({offers}:State) => ({
+const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
+  authorizationStatus === AuthorizationStatus.Unknown;
+
+const mapStateToProps = ({offers, authorizationStatus, isDataLoaded}:State) => ({
   offers,
+  authorizationStatus,
+  isDataLoaded,
 });
 
 const connector = connect(mapStateToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function App({offers}: PropsFromRedux): JSX.Element {
+function App({offers, authorizationStatus, isDataLoaded}: PropsFromRedux): JSX.Element {
+  if(!isDataLoaded || isCheckedAuth(authorizationStatus)){
+    return <LoadingScreen />;
+  }
+
   return (
     <BrowserRouter>
       <Switch>
@@ -34,7 +44,6 @@ function App({offers}: PropsFromRedux): JSX.Element {
           exact
           path={AppRoute.Favorites}
           render={() => <FavoritesScreen offers={offers}/>}
-          authorizationStatus={AuthorizationStatus.Auth}
         >
         </PrivateRoute>
         <Route>

@@ -1,7 +1,7 @@
 import {Dispatch} from 'redux';
 import {connect, ConnectedProps} from 'react-redux';
 import {Actions} from '../../types/action';
-import {setCity, setOffers} from '../../store/action';
+import {setCity} from '../../store/action';
 import {CityName} from '../../const';
 import CityItem from '../city-item/city-item';
 
@@ -12,7 +12,7 @@ type CitiesListProps = {
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onCityChange(currentCity: string) {
     dispatch(setCity(currentCity));
-    dispatch(setOffers());
+    // dispatch(setOffers());
   },
 });
 
