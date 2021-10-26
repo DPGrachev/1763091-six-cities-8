@@ -1,6 +1,6 @@
 import {Offer} from '../../types/offer';
 import {Link} from 'react-router-dom';
-import {ONE_STAR_RATING_PERCENT} from '../../const';
+import {getRatingInStars} from '../../utils';
 
 type OfferCardProps = {
   offer: Offer,
@@ -53,7 +53,7 @@ function OfferCard(props: OfferCardProps): JSX.Element{
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${ONE_STAR_RATING_PERCENT*rating}%`}}></span>
+            <span style={{width: getRatingInStars(rating)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

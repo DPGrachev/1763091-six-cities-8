@@ -1,5 +1,3 @@
-const ONE_STAR_RATING_PERCENT = 20;
-
 const enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
@@ -43,4 +41,4 @@ enum SortOption {
   TopRatedFirst = 'Top rated first',
 }
 
-export {ONE_STAR_RATING_PERCENT, AppRoute, AuthorizationStatus, ActionType, CityName, SortOption, APIRoute};
+export {AppRoute, AuthorizationStatus, ActionType, CityName, SortOption, APIRoute};

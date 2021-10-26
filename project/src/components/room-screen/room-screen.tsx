@@ -1,11 +1,12 @@
 import Logo from '../logo/logo';
 import {Offer} from '../../types/offer';
 import {useParams, Link} from 'react-router-dom';
-import { AppRoute, ONE_STAR_RATING_PERCENT } from '../../const';
+import { AppRoute } from '../../const';
 import NewCommentForm from '../new-comment-form/new-comment-form';
 import ReviewsList from '../reviews-list/reviews-list';
 import {reviews} from '../../mocks/reviews';
 import Map from '../map/map';
+import { getRatingInStars } from '../../utils';
 import OffersList from '../offers-list/offers-list';
 
 type RoomScreenProps = {
@@ -59,9 +60,12 @@ function RoomScreen({offers}: RoomScreenProps): JSX.Element {
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              {isPremium
-                ? <div className="property__mark"><span>Premium</span></div>
-                : ''}
+              {
+                isPremium &&
+                  <div className="property__mark">
+                    <span>Premium</span>
+                  </div>
+              }
               <div className="property__name-wrapper">
                 <h1 className="property__name">
                   {title}
@@ -75,7 +79,7 @@ function RoomScreen({offers}: RoomScreenProps): JSX.Element {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: `${ONE_STAR_RATING_PERCENT*rating}%`}}></span>
+                  <span style={{width: getRatingInStars(rating)}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">{rating}</span>
@@ -113,9 +117,10 @@ function RoomScreen({offers}: RoomScreenProps): JSX.Element {
                   <span className="property__user-name">
                     {host.name}
                   </span>
-                  {host.isPro
-                    ? <span className="property__user-status">Pro</span>
-                    : ''}
+                  {
+                    host.isPro &&
+                      <span className="property__user-status">Pro</span>
+                  }
                 </div>
                 <div className="property__description">
                   <p className="property__text">
