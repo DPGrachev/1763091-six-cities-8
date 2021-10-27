@@ -1,5 +1,6 @@
 import {Offer} from '../../types/offer';
 import {Link} from 'react-router-dom';
+import {getRatingInStars} from '../../utils';
 
 type OfferCardProps = {
   offer: Offer,
@@ -7,7 +8,7 @@ type OfferCardProps = {
 }
 
 function OfferCard(props: OfferCardProps): JSX.Element{
-  const {id, isPremium, previewImage, price, title} = props.offer;
+  const {id, isPremium, previewImage, price, title, rating, type} = props.offer;
 
   const handleMouseOver = () => {
     if(props.onCardFocus){
@@ -52,14 +53,14 @@ function OfferCard(props: OfferCardProps): JSX.Element{
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: '80%'}}></span>
+            <span style={{width: getRatingInStars(rating)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
           <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
-        <p className="place-card__type">Apartment</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>);
 }

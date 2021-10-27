@@ -6,6 +6,7 @@ import NewCommentForm from '../new-comment-form/new-comment-form';
 import ReviewsList from '../reviews-list/reviews-list';
 import {reviews} from '../../mocks/reviews';
 import Map from '../map/map';
+import { getRatingInStars } from '../../utils';
 import OffersList from '../offers-list/offers-list';
 
 type RoomScreenProps = {
@@ -21,7 +22,7 @@ function RoomScreen({offers}: RoomScreenProps): JSX.Element {
   const currentRoomId = Number(params.id);
   const currentRoom = offers.find((offer)=> offer.id === currentRoomId) as Offer;
   const similarOffers = offers.filter((offer) => offer.id !== currentRoomId);
-  const {price, goods, title, city} = currentRoom;
+  const {price, description, goods, title, city, isPremium, rating, type, bedrooms, maxAdults, images, host} = currentRoom;
 
   return (
     <div className="page">
@@ -50,31 +51,21 @@ function RoomScreen({offers}: RoomScreenProps): JSX.Element {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/room.jpg" alt="Studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-02.jpg" alt="Studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-03.jpg" alt="Studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/studio-01.jpg" alt="Studio"/>
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Studio"/>
-              </div>
+              {images.map((image) => (
+                <div className="property__image-wrapper" key={image}>
+                  <img className="property__image" src={image} alt="Studio"/>
+                </div>
+              ))}
             </div>
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              <div className="property__mark">
-                <span>Premium</span>
-              </div>
+              {
+                isPremium &&
+                  <div className="property__mark">
+                    <span>Premium</span>
+                  </div>
+              }
               <div className="property__name-wrapper">
                 <h1 className="property__name">
                   {title}
@@ -88,20 +79,20 @@ function RoomScreen({offers}: RoomScreenProps): JSX.Element {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: '80%'}}></span>
+                  <span style={{width: getRatingInStars(rating)}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">4.8</span>
+                <span className="property__rating-value rating__value">{rating}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-             Apartment
+                  {type}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-             3 Bedrooms
+                  {bedrooms} Bedrooms
                 </li>
                 <li className="property__feature property__feature--adults">
-             Max 4 adults
+                  Max {maxAdults} adults
                 </li>
               </ul>
               <div className="property__price">
@@ -124,18 +115,16 @@ function RoomScreen({offers}: RoomScreenProps): JSX.Element {
                     <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar"/>
                   </div>
                   <span className="property__user-name">
-               Angelina
+                    {host.name}
                   </span>
-                  <span className="property__user-status">
-               Pro
-                  </span>
+                  {
+                    host.isPro &&
+                      <span className="property__user-status">Pro</span>
+                  }
                 </div>
                 <div className="property__description">
                   <p className="property__text">
-               A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                  </p>
-                  <p className="property__text">
-               An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
+                    {description}
                   </p>
                 </div>
               </div>
