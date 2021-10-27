@@ -5,6 +5,10 @@ import {connect, ConnectedProps} from 'react-redux';
 import Logo from '../logo/logo';
 import { FormEvent, useRef } from 'react';
 
+type LoginScreenProps = {
+  onSuccesSubmit: ()=>void,
+}
+
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onSubmit(authData: AuthData) {
     dispatch(loginAction(authData));
@@ -14,8 +18,9 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
 const connector = connect(null, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & LoginScreenProps;
 
-function LoginScreen({onSubmit}: PropsFromRedux): JSX.Element {
+function LoginScreen({onSubmit, onSuccesSubmit}: ConnectedComponentProps): JSX.Element {
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -28,6 +33,7 @@ function LoginScreen({onSubmit}: PropsFromRedux): JSX.Element {
         login: loginRef.current.value,
         password: passwordRef.current.value,
       });
+      onSuccesSubmit();
     }
   };
 
