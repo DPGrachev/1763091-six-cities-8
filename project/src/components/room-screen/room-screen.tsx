@@ -1,27 +1,53 @@
 import Logo from '../logo/logo';
-import {Offer} from '../../types/offer';
 import {useParams, Link} from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import NewCommentForm from '../new-comment-form/new-comment-form';
 import ReviewsList from '../reviews-list/reviews-list';
-import {reviews} from '../../mocks/reviews';
 import Map from '../map/map';
 import { getRatingInStars } from '../../utils';
 import OffersList from '../offers-list/offers-list';
-
-type RoomScreenProps = {
-  offers: Offer[];
-}
+import { fetchCurrentOfferAction, fetchCommentsAction, fetchNearbyOffersAction } from '../../store/api-actions';
+import {connect, ConnectedProps} from 'react-redux';
+import { ThunkAppDispatch } from '../../types/action';
+import {State} from '../../types/state';
+import LoadingScreen from '../loading/loading';
+import { useEffect } from 'react';
 
 type Params = {
   id: string;
 }
 
-function RoomScreen({offers}: RoomScreenProps): JSX.Element {
+const mapStateToProps = ({currentOffer, nearbyOffers, comments, authorizationStatus}:State) => ({
+  currentOffer,
+  nearbyOffers,
+  comments,
+  authorizationStatus,
+});
+
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  setCurrentOfferAction(currentRoomId: number) {
+    dispatch(fetchCurrentOfferAction(currentRoomId));
+    dispatch(fetchCommentsAction(currentRoomId));
+    dispatch(fetchNearbyOffersAction(currentRoomId));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function RoomScreen({currentOffer, nearbyOffers, comments, authorizationStatus, setCurrentOfferAction}: PropsFromRedux): JSX.Element {
   const params: Params = useParams();
   const currentRoomId = Number(params.id);
-  const currentRoom = offers.find((offer)=> offer.id === currentRoomId) as Offer;
-  const similarOffers = offers.filter((offer) => offer.id !== currentRoomId);
+  const currentRoom = currentOffer;
+
+  useEffect(()=>{
+    setCurrentOfferAction(currentRoomId);
+  }, [currentRoomId, setCurrentOfferAction]);
+
+  if(!currentRoom || currentRoom.id !== currentRoomId){
+    return <LoadingScreen />;
+  }
   const {price, description, goods, title, city, isPremium, rating, type, bedrooms, maxAdults, images, host} = currentRoom;
 
   return (
@@ -129,21 +155,22 @@ function RoomScreen({offers}: RoomScreenProps): JSX.Element {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <ReviewsList reviews={reviews}/>
-                <NewCommentForm />
+                <ReviewsList reviews={comments}/>
+                {authorizationStatus === AuthorizationStatus.Auth && <NewCommentForm />}
               </section>
             </div>
           </div>
-          <Map city={city.location} offers={similarOffers} isRoomScreenMap/>
+          <Map city={city.location} offers={nearbyOffers} isRoomScreenMap/>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersList offers={similarOffers} isRoomScreenOffersList/>
+            <OffersList offers={nearbyOffers} isRoomScreenOffersList/>
           </section>
         </div>
       </main>
     </div>);
 }
 
-export default RoomScreen;
+export default connector(RoomScreen);
+export {RoomScreen};

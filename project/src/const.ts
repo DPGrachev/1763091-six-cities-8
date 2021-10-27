@@ -14,6 +14,9 @@ const enum AuthorizationStatus {
 const enum ActionType {
   SetCity = 'main-screen/set-city',
   SetSortOption = 'main-screen/set-sort-option',
+  SetCurrentOffer = 'room-screen/set-current-offer',
+  SetComments = 'room-screen/set-comments',
+  SetNearbyOffers = 'room-screen/set-nearby-offers',
   SetOffers = 'data/set-offers',
   RequireAuthorization = 'user/require-authorization',
   RequireLogout = 'user/require-logout',
@@ -23,6 +26,8 @@ const enum APIRoute {
   Offers = '/hotels',
   Login = '/login',
   Logout = '/logout',
+  Comments = '/comments',
+  Nearby = '/nearby',
 }
 
 enum CityName {

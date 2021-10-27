@@ -1,13 +1,13 @@
 import {ThunkActionResult} from '../types/action';
-import {setOffers, requireAuthorization, requireLogout} from './action';
+import {setOffers, setComments, setNearbyOffers, requireAuthorization, requireLogout, setCurrentOffer} from './action';
 import {saveToken, dropToken, Token} from '../services/token';
 import {APIRoute, AuthorizationStatus} from '../const';
 import { Offer, OfferFromServer } from '../types/offer';
 import {AuthData} from '../types/auth-data';
+import { Review, ReviewFromServer } from '../types/review';
 
-const adaptToClient = (offers: OfferFromServer[]): Offer[] => {
-  const adaptedOffers: Offer[] = [];
-  offers.map((offer) => adaptedOffers.push({
+const adaptOfferToClient = (offer: OfferFromServer): Offer =>
+  ({
     bedrooms: offer.bedrooms,
     city: {
       location: {
@@ -40,14 +40,48 @@ const adaptToClient = (offers: OfferFromServer[]): Offer[] => {
     rating: offer.rating,
     title: offer.title,
     type: offer.type,
-  }));
-  return adaptedOffers;
-};
+  });
+
+const adaptReviewToClient = (review: ReviewFromServer): Review =>
+  ({
+    comment: review.comment,
+    date: review.date,
+    id: review.id,
+    rating: review.rating,
+    user: {
+      avatarUrl: review.user.avatar_url,
+      id: review.user.id,
+      isPro: review.user.is_pro,
+      name: review.user.name,
+    },
+  });
 
 const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     await api.get<OfferFromServer[]>(APIRoute.Offers)
-      .then((response) => dispatch(setOffers(adaptToClient(response.data))));
+      .then((response) => response.data.map((offer) => adaptOfferToClient(offer)))
+      .then((response) => dispatch(setOffers(response)));
+  };
+
+const fetchCurrentOfferAction = (currentOfferId: number): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    await api.get<OfferFromServer>(`${APIRoute.Offers}/${currentOfferId}`)
+      .then((response) => adaptOfferToClient(response.data))
+      .then((response) => dispatch(setCurrentOffer(response)));
+  };
+
+const fetchCommentsAction = (currentOfferId: number): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    await api.get<ReviewFromServer[]>(`${APIRoute.Comments}/${currentOfferId}`)
+      .then((response) => response.data.map((review) => adaptReviewToClient(review)))
+      .then((response) => dispatch(setComments(response)));
+  };
+
+const fetchNearbyOffersAction = (currentOfferId: number): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    await api.get<OfferFromServer[]>(`${APIRoute.Offers}/${currentOfferId}${APIRoute.Nearby}`)
+      .then((response) => response.data.map((offer) => adaptOfferToClient(offer)))
+      .then((response) => dispatch(setNearbyOffers(response)));
   };
 
 const checkAuthAction = (): ThunkActionResult =>
@@ -75,4 +109,4 @@ const logoutAction = (): ThunkActionResult =>
     dispatch(requireLogout());
   };
 
-export {fetchOffersAction, checkAuthAction, loginAction, logoutAction};
+export {fetchOffersAction,fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction, checkAuthAction, loginAction, logoutAction};
