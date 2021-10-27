@@ -24,4 +24,9 @@ type ReviewFromServer = {
   }
 };
 
-export type {Review, ReviewFromServer};
+type CommentPost = {
+  comment: string,
+  rating: number,
+};
+
+export type {Review, ReviewFromServer, CommentPost};

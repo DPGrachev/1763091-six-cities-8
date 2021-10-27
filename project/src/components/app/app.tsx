@@ -49,7 +49,10 @@ function App({offers, authorizationStatus, isDataLoaded}: PropsFromRedux): JSX.E
           render={() => <FavoritesScreen offers={offers}/>}
         >
         </PrivateRoute>
-        <Route>
+        <Route path={AppRoute.NotFound} >
+          <NotFoundScreen />
+        </Route>
+        <Route >
           <NotFoundScreen />
         </Route>
       </Switch>

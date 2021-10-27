@@ -1,9 +1,14 @@
 import {ChangeEvent, FormEvent, useState} from 'react';
+import { CommentPost } from '../../types/review';
 
-function NewCommentForm(): JSX.Element {
+type NewCommentFormProps = {
+  onSubmit: ({comment, rating}: CommentPost) => void,
+}
+
+function NewCommentForm({onSubmit} : NewCommentFormProps): JSX.Element {
   const [commentPost, setCommentPost] = useState({
     'comment': '',
-    'rating' : null,
+    'rating' : 0,
   });
 
   const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -18,6 +23,13 @@ function NewCommentForm(): JSX.Element {
 
   const handleSubmit = (evt: FormEvent<HTMLButtonElement>) => {
     evt.preventDefault();
+    if(commentPost.rating){
+      onSubmit(commentPost);
+      setCommentPost({
+        'comment': '',
+        'rating' : 0,
+      });
+    }
   };
 
   return (

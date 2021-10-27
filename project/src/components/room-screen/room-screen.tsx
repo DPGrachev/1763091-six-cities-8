@@ -6,12 +6,13 @@ import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
 import { getRatingInStars } from '../../utils';
 import OffersList from '../offers-list/offers-list';
-import { fetchCurrentOfferAction, fetchCommentsAction, fetchNearbyOffersAction } from '../../store/api-actions';
+import { fetchCurrentOfferAction, fetchCommentsAction, fetchNearbyOffersAction, addNewCommentAction } from '../../store/api-actions';
 import {connect, ConnectedProps} from 'react-redux';
 import { ThunkAppDispatch } from '../../types/action';
 import {State} from '../../types/state';
 import LoadingScreen from '../loading/loading';
 import { useEffect } from 'react';
+import { CommentPost } from '../../types/review';
 
 type Params = {
   id: string;
@@ -27,8 +28,15 @@ const mapStateToProps = ({currentOffer, nearbyOffers, comments, authorizationSta
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   setCurrentOfferAction(currentRoomId: number) {
     dispatch(fetchCurrentOfferAction(currentRoomId));
+  },
+  setCommentsAction(currentRoomId: number) {
     dispatch(fetchCommentsAction(currentRoomId));
+  },
+  setNearbyOfferAction(currentRoomId: number) {
     dispatch(fetchNearbyOffersAction(currentRoomId));
+  },
+  onNewCommentSubmit ({comment, rating}: CommentPost, currentOfferId: number) {
+    dispatch(addNewCommentAction({comment, rating}, currentOfferId));
   },
 });
 
@@ -36,14 +44,20 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-function RoomScreen({currentOffer, nearbyOffers, comments, authorizationStatus, setCurrentOfferAction}: PropsFromRedux): JSX.Element {
+function RoomScreen({currentOffer, nearbyOffers, comments, authorizationStatus, setCurrentOfferAction, setCommentsAction, setNearbyOfferAction, onNewCommentSubmit}: PropsFromRedux): JSX.Element {
   const params: Params = useParams();
   const currentRoomId = Number(params.id);
   const currentRoom = currentOffer;
 
+  const handleNewCommentSubmit = ({comment, rating}: CommentPost) => onNewCommentSubmit({comment, rating}, currentRoomId);
+
   useEffect(()=>{
     setCurrentOfferAction(currentRoomId);
-  }, [currentRoomId, setCurrentOfferAction]);
+    if(currentRoom){
+      setCommentsAction(currentRoomId);
+      setNearbyOfferAction(currentRoomId);
+    }
+  }, [currentRoom, currentRoomId, setCommentsAction, setCurrentOfferAction, setNearbyOfferAction]);
 
   if(!currentRoom || currentRoom.id !== currentRoomId){
     return <LoadingScreen />;
@@ -156,7 +170,7 @@ function RoomScreen({currentOffer, nearbyOffers, comments, authorizationStatus, 
               </div>
               <section className="property__reviews reviews">
                 <ReviewsList reviews={comments}/>
-                {authorizationStatus === AuthorizationStatus.Auth && <NewCommentForm />}
+                {authorizationStatus === AuthorizationStatus.Auth && <NewCommentForm onSubmit={handleNewCommentSubmit}/>}
               </section>
             </div>
           </div>

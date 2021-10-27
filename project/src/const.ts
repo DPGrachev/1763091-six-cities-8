@@ -3,6 +3,7 @@ const enum AppRoute {
   Favorites = '/favorites',
   Room = '/offer/:id',
   Main = '/',
+  NotFound = '/404'
 }
 
 const enum AuthorizationStatus {

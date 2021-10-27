@@ -4,7 +4,7 @@ import {saveToken, dropToken, Token} from '../services/token';
 import {APIRoute, AuthorizationStatus} from '../const';
 import { Offer, OfferFromServer } from '../types/offer';
 import {AuthData} from '../types/auth-data';
-import { Review, ReviewFromServer } from '../types/review';
+import { CommentPost, Review, ReviewFromServer } from '../types/review';
 
 const adaptOfferToClient = (offer: OfferFromServer): Offer =>
   ({
@@ -66,8 +66,11 @@ const fetchOffersAction = (): ThunkActionResult =>
 const fetchCurrentOfferAction = (currentOfferId: number): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     await api.get<OfferFromServer>(`${APIRoute.Offers}/${currentOfferId}`)
-      .then((response) => adaptOfferToClient(response.data))
-      .then((response) => dispatch(setCurrentOffer(response)));
+      .then((response) => {
+        if(response?.data){
+          dispatch(setCurrentOffer(adaptOfferToClient(response.data)));
+        }
+      });
   };
 
 const fetchCommentsAction = (currentOfferId: number): ThunkActionResult =>
@@ -94,13 +97,19 @@ const checkAuthAction = (): ThunkActionResult =>
       });
   };
 
+const addNewCommentAction = ({comment, rating}: CommentPost, currentOfferId: number): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    await api.post<ReviewFromServer[]>(`${APIRoute.Comments}/${currentOfferId}`, {comment, rating})
+      .then((response) => response.data.map((review) => adaptReviewToClient(review)))
+      .then((response) => dispatch(setComments(response)));
+  };
+
 const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     const {data: {token}} = await api.post<{token: Token}>(APIRoute.Login, {email, password});
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
   };
-
 
 const logoutAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
@@ -109,4 +118,4 @@ const logoutAction = (): ThunkActionResult =>
     dispatch(requireLogout());
   };
 
-export {fetchOffersAction,fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction, checkAuthAction, loginAction, logoutAction};
+export {fetchOffersAction,fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction, addNewCommentAction, checkAuthAction, loginAction, logoutAction};
