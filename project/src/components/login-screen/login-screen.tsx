@@ -4,10 +4,8 @@ import { AuthData } from '../../types/auth-data';
 import {connect, ConnectedProps} from 'react-redux';
 import Logo from '../logo/logo';
 import { FormEvent, useRef } from 'react';
-
-type LoginScreenProps = {
-  onSuccesSubmit: ()=>void,
-}
+import { useHistory } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onSubmit(authData: AuthData) {
@@ -18,12 +16,12 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
 const connector = connect(null, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & LoginScreenProps;
 
-function LoginScreen({onSubmit, onSuccesSubmit}: ConnectedComponentProps): JSX.Element {
+function LoginScreen({onSubmit}: PropsFromRedux): JSX.Element {
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const history = useHistory();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -33,7 +31,7 @@ function LoginScreen({onSubmit, onSuccesSubmit}: ConnectedComponentProps): JSX.E
         login: loginRef.current.value,
         password: passwordRef.current.value,
       });
-      onSuccesSubmit();
+      history.push(AppRoute.Main);
     }
   };
 

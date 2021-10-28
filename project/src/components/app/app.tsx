@@ -38,14 +38,10 @@ function App({offers, authorizationStatus, isDataLoaded}: PropsFromRedux): JSX.E
         <Route
           exact
           path={AppRoute.Login}
-          render={({history}) => (
-            <LoginScreen
-              onSuccesSubmit={() => history.push(AppRoute.Main)}
-            />
-          )}
+          render={() => <LoginScreen/>}
         />
         <Route exact path={AppRoute.Room}>
-          <RoomScreen offers={offers}/>
+          <RoomScreen />
         </Route>
         <PrivateRoute
           exact
@@ -53,7 +49,10 @@ function App({offers, authorizationStatus, isDataLoaded}: PropsFromRedux): JSX.E
           render={() => <FavoritesScreen offers={offers}/>}
         >
         </PrivateRoute>
-        <Route>
+        <Route path={AppRoute.NotFound} >
+          <NotFoundScreen />
+        </Route>
+        <Route >
           <NotFoundScreen />
         </Route>
       </Switch>

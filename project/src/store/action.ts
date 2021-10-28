@@ -1,5 +1,6 @@
 import { ActionType, AuthorizationStatus } from '../const';
 import { Offer } from '../types/offer';
+import { Review } from '../types/review';
 
 const setCity = (cityName:string) => ({
   type: ActionType.SetCity,
@@ -10,6 +11,27 @@ const setCity = (cityName:string) => ({
 
 const setOffers = (offers: Offer[]) => ({
   type: ActionType.SetOffers,
+  payload: {
+    offers,
+  },
+} as const);
+
+const setCurrentOffer = (offer: Offer) => ({
+  type: ActionType.SetCurrentOffer,
+  payload: {
+    offer,
+  },
+} as const);
+
+const setComments = (comments: Review[]) => ({
+  type: ActionType.SetComments,
+  payload: {
+    comments,
+  },
+} as const);
+
+const setNearbyOffers = (offers: Offer[]) => ({
+  type: ActionType.SetNearbyOffers,
   payload: {
     offers,
   },
@@ -31,4 +53,4 @@ const requireLogout = () => ({
   type: ActionType.RequireLogout,
 } as const);
 
-export {setCity, setOffers, setSortOption, requireAuthorization, requireLogout};
+export {setCity, setOffers, setCurrentOffer, setNearbyOffers, setComments, setSortOption, requireAuthorization, requireLogout};

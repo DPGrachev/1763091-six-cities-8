@@ -6,11 +6,12 @@ const REQUEST_TIMEOUT = 5000;
 
 enum HttpCode {
   Unauthorized = 401,
+  NotFound = 404,
 }
 
-type UnauthorizedCallback = () => void;
+type errorCallback = () => void;
 
-const createAPI = (onUnauthorized: UnauthorizedCallback): AxiosInstance => {
+const createAPI = (onUnauthorized: errorCallback, notFound: errorCallback): AxiosInstance => {
   const api = axios.create({
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT,
@@ -24,6 +25,9 @@ const createAPI = (onUnauthorized: UnauthorizedCallback): AxiosInstance => {
 
       if (response?.status === HttpCode.Unauthorized) {
         return onUnauthorized();
+      }
+      if (response?.status === HttpCode.NotFound){
+        return notFound();
       }
 
       return Promise.reject(error);
