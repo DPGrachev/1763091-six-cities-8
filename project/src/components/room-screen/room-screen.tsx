@@ -1,92 +1,49 @@
-import Logo from '../logo/logo';
-import {useParams, Link} from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import Header from '../header/header';
+import {useParams} from 'react-router-dom';
+import { AuthorizationStatus } from '../../const';
 import NewCommentForm from '../new-comment-form/new-comment-form';
 import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
 import { getRatingInStars } from '../../utils';
 import OffersList from '../offers-list/offers-list';
 import { fetchCurrentOfferAction, fetchCommentsAction, fetchNearbyOffersAction, addNewCommentAction } from '../../store/api-actions';
-import {connect, ConnectedProps} from 'react-redux';
-import { ThunkAppDispatch } from '../../types/action';
-import {State} from '../../types/state';
 import LoadingScreen from '../loading/loading';
 import { useEffect } from 'react';
 import { CommentPost } from '../../types/review';
+import {getComments, getCurrentOffer, getNearbyOffers} from '../../store/room-screen/selectors';
+import {getAuthorizationStatus} from '../../store/user-status/selectors';
+import {useDispatch, useSelector} from 'react-redux';
 
 type Params = {
   id: string;
 }
 
-const mapStateToProps = ({currentOffer, nearbyOffers, comments, authorizationStatus}:State) => ({
-  currentOffer,
-  nearbyOffers,
-  comments,
-  authorizationStatus,
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  setCurrentOfferAction(currentRoomId: number) {
-    dispatch(fetchCurrentOfferAction(currentRoomId));
-  },
-  setCommentsAction(currentRoomId: number) {
-    dispatch(fetchCommentsAction(currentRoomId));
-  },
-  setNearbyOfferAction(currentRoomId: number) {
-    dispatch(fetchNearbyOffersAction(currentRoomId));
-  },
-  onNewCommentSubmit ({comment, rating}: CommentPost, currentOfferId: number) {
-    dispatch(addNewCommentAction({comment, rating}, currentOfferId));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function RoomScreen({currentOffer, nearbyOffers, comments, authorizationStatus, setCurrentOfferAction, setCommentsAction, setNearbyOfferAction, onNewCommentSubmit}: PropsFromRedux): JSX.Element {
+function RoomScreen(): JSX.Element {
   const params: Params = useParams();
   const currentRoomId = Number(params.id);
-  const currentRoom = currentOffer;
+  const currentOffer = useSelector(getCurrentOffer);
+  const nearbyOffers = useSelector(getNearbyOffers);
+  const comments = useSelector(getComments);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const dispatch = useDispatch();
 
-  const handleNewCommentSubmit = ({comment, rating}: CommentPost) => onNewCommentSubmit({comment, rating}, currentRoomId);
+
+  const handleNewCommentSubmit = ({comment, rating}: CommentPost) => dispatch(addNewCommentAction({comment, rating}, currentRoomId));
 
   useEffect(()=>{
-    setCurrentOfferAction(currentRoomId);
-    if(currentRoom){
-      setCommentsAction(currentRoomId);
-      setNearbyOfferAction(currentRoomId);
-    }
-  }, [currentRoom, currentRoomId, setCommentsAction, setCurrentOfferAction, setNearbyOfferAction]);
+    dispatch(fetchCurrentOfferAction(currentRoomId));
+    dispatch(fetchCommentsAction(currentRoomId));
+    dispatch(fetchNearbyOffersAction(currentRoomId));
+  }, [currentRoomId, dispatch]);
 
-  if(!currentRoom || currentRoom.id !== currentRoomId){
+  if(!currentOffer || currentOffer.id !== currentRoomId){
     return <LoadingScreen />;
   }
-  const {price, description, goods, title, city, isPremium, rating, type, bedrooms, maxAdults, images, host} = currentRoom;
+  const {price, description, goods, title, city, isPremium, rating, type, bedrooms, maxAdults, images, host} = currentOffer;
 
   return (
     <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo />
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Login}>
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__login">Sign in</span>
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
-
+      <Header />
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
@@ -186,5 +143,4 @@ function RoomScreen({currentOffer, nearbyOffers, comments, authorizationStatus, 
     </div>);
 }
 
-export default connector(RoomScreen);
-export {RoomScreen};
+export default RoomScreen;

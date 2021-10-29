@@ -1,52 +1,32 @@
 import { loginAction } from '../../store/api-actions';
-import { ThunkAppDispatch } from '../../types/action';
-import { AuthData } from '../../types/auth-data';
-import {connect, ConnectedProps} from 'react-redux';
-import Logo from '../logo/logo';
+import Header from '../header/header';
 import { FormEvent, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import {useDispatch} from 'react-redux';
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(authData: AuthData) {
-    dispatch(loginAction(authData));
-  },
-});
-
-const connector = connect(null, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function LoginScreen({onSubmit}: PropsFromRedux): JSX.Element {
+function LoginScreen(): JSX.Element {
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (loginRef.current !== null && passwordRef.current !== null) {
-      onSubmit({
+      dispatch(loginAction({
         login: loginRef.current.value,
         password: passwordRef.current.value,
-      });
+      }));
       history.push(AppRoute.Main);
     }
   };
 
   return (
     <div className="page page--gray page--login">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo />
-            </div>
-          </div>
-        </div>
-      </header>
-
+      <Header isLoginScreen/>
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">
@@ -75,5 +55,4 @@ function LoginScreen({onSubmit}: PropsFromRedux): JSX.Element {
     </div>);
 }
 
-export default connector(LoginScreen);
-export {LoginScreen};
+export default LoginScreen;

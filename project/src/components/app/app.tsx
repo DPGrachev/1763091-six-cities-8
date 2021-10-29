@@ -6,25 +6,20 @@ import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {Switch, Route, Router as  BrowserRouter} from 'react-router-dom';
 import PrivateRoute from '../private-route/private-route';
 import {AppRoute, AuthorizationStatus} from '../../const';
-import {connect, ConnectedProps} from 'react-redux';
-import {State} from '../../types/state';
 import LoadingScreen from '../loading/loading';
 import browserHistory from '../../browser-history';
+import {getAuthorizationStatus} from '../../store/user-status/selectors';
+import {getOffersInCurrentCity, getLoadedDataStatus} from '../../store/data-offers/selectors';
+import { useSelector} from 'react-redux';
 
 const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Unknown;
 
-const mapStateToProps = ({offers, authorizationStatus, isDataLoaded}:State) => ({
-  offers,
-  authorizationStatus,
-  isDataLoaded,
-});
+function App(): JSX.Element {
+  const offers = useSelector(getOffersInCurrentCity);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const isDataLoaded = useSelector(getLoadedDataStatus);
 
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function App({offers, authorizationStatus, isDataLoaded}: PropsFromRedux): JSX.Element {
   if(!isDataLoaded || isCheckedAuth(authorizationStatus)){
     return <LoadingScreen />;
   }
@@ -33,7 +28,7 @@ function App({offers, authorizationStatus, isDataLoaded}: PropsFromRedux): JSX.E
     <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <MainScreen offers={offers}/>
+          <MainScreen />
         </Route>
         <Route
           exact
@@ -60,5 +55,4 @@ function App({offers, authorizationStatus, isDataLoaded}: PropsFromRedux): JSX.E
   );
 }
 
-export default connector(App);
-export {App};
+export default App;

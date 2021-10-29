@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Logo from '../logo/logo';
+import Logo from '../header/header';
 import {AppRoute} from '../../const';
 import {Offer} from '../../types/offer';
 import FavoriteOfferCard from '../favorite-offer-card/favorite-offer-card';
