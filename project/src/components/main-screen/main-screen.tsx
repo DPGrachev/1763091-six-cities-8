@@ -9,6 +9,7 @@ import {Link} from 'react-router-dom';
 import {State} from '../../types/state';
 import { Offer } from '../../types/offer';
 import { AppRoute, SortOption } from '../../const';
+import {getCurrentSortOption, getCurrentCity} from '../../store/main-screen/selectors';
 
 const getCitiesCoordinates = (city:string) => {
   switch(city){
@@ -45,9 +46,9 @@ const getSortedOffers = (currentSortOption : string, offers: Offer[]) => {
   }
 };
 
-const mapStateToProps = ({MAIN}:State) => ({
-  currentCity: MAIN.currentCity,
-  currentSortOption: MAIN.currentSortOption,
+const mapStateToProps = (state :State) => ({
+  currentCity: getCurrentCity(state),
+  currentSortOption: getCurrentSortOption(state),
 });
 
 const connector = connect(mapStateToProps);

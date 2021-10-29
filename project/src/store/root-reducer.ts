@@ -20,5 +20,5 @@ const rootReducer = combineReducers({
 
 type RootState = ReturnType<typeof rootReducer>;
 
-export {rootReducer};
+export {NameSpace, rootReducer};
 export type {RootState};

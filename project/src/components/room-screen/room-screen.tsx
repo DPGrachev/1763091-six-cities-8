@@ -13,16 +13,18 @@ import {State} from '../../types/state';
 import LoadingScreen from '../loading/loading';
 import { useEffect } from 'react';
 import { CommentPost } from '../../types/review';
+import {getComments, getCurrentOffer, getNearbyOffers} from '../../store/room-screen/selectors';
+import {getAuthorizationStatus} from '../../store/user-status/selectors';
 
 type Params = {
   id: string;
 }
 
-const mapStateToProps = ({ROOM, USER}:State) => ({
-  currentOffer: ROOM.currentOffer,
-  nearbyOffers: ROOM.nearbyOffers,
-  comments: ROOM.comments,
-  authorizationStatus: USER.authorizationStatus,
+const mapStateToProps = (state :State) => ({
+  currentOffer: getCurrentOffer(state),
+  nearbyOffers: getNearbyOffers(state),
+  comments: getComments(state),
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
