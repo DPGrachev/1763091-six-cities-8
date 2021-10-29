@@ -1,6 +1,6 @@
-import Logo from '../logo/logo';
-import {useParams, Link} from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import Header from '../header/header';
+import {useParams} from 'react-router-dom';
+import { AuthorizationStatus } from '../../const';
 import NewCommentForm from '../new-comment-form/new-comment-form';
 import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
@@ -43,27 +43,7 @@ function RoomScreen(): JSX.Element {
 
   return (
     <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo />
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Login}>
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__login">Sign in</span>
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
-
+      <Header />
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">

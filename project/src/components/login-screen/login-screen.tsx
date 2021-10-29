@@ -1,5 +1,5 @@
 import { loginAction } from '../../store/api-actions';
-import Logo from '../logo/logo';
+import Header from '../header/header';
 import { FormEvent, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AppRoute } from '../../const';
@@ -26,16 +26,7 @@ function LoginScreen(): JSX.Element {
 
   return (
     <div className="page page--gray page--login">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo />
-            </div>
-          </div>
-        </div>
-      </header>
-
+      <Header isLoginScreen/>
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">
