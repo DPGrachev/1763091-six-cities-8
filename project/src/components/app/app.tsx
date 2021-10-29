@@ -11,13 +11,13 @@ import {State} from '../../types/state';
 import LoadingScreen from '../loading/loading';
 import browserHistory from '../../browser-history';
 import {getAuthorizationStatus} from '../../store/user-status/selectors';
-import {getOffers, getLoadedDataStatus} from '../../store/data-offers/selectors';
+import {getOffersInCurrentCity, getLoadedDataStatus} from '../../store/data-offers/selectors';
 
 const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Unknown;
 
 const mapStateToProps = (state :State) => ({
-  offers: getOffers(state),
+  offers: getOffersInCurrentCity(state),
   authorizationStatus: getAuthorizationStatus(state),
   isDataLoaded: getLoadedDataStatus(state),
 });
