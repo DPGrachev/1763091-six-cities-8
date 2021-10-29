@@ -1,6 +1,6 @@
 import { RoomScreen } from '../../types/state';
-import { Actions } from '../../types/action';
-import { ActionType } from '../../const';
+import { createReducer } from '@reduxjs/toolkit';
+import { setCurrentOffer, setComments, setNearbyOffers } from '../action';
 
 const initialState : RoomScreen = {
   currentOffer : null,
@@ -8,21 +8,17 @@ const initialState : RoomScreen = {
   nearbyOffers: [],
 };
 
-const roomScreen = (state = initialState, action: Actions): RoomScreen => {
-  switch(action.type){
-    case ActionType.SetCurrentOffer: {
-      return {...state, currentOffer: action.payload.offer};
-    }
-    case ActionType.SetComments: {
-      return {...state, comments: action.payload.comments};
-    }
-    case ActionType.SetNearbyOffers: {
-      return {...state, nearbyOffers: action.payload.offers};
-    }
-    default: {
-      return state;
-    }
-  }
-};
+const roomScreen = createReducer(initialState, (builder) => {
+  builder
+    .addCase(setCurrentOffer, (state, action) => {
+      state.currentOffer = action.payload.offer;
+    })
+    .addCase(setComments, (state, action) => {
+      state.comments = action.payload.comments;
+    })
+    .addCase(setNearbyOffers, (state, action) => {
+      state.nearbyOffers = action.payload.offers;
+    });
+});
 
 export {roomScreen};

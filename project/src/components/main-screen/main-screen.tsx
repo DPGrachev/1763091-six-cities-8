@@ -4,12 +4,11 @@ import Map from '../map/map';
 import Sort from '../sort/sort';
 import { useState } from 'react';
 import CitiesList from '../cities-list/cities-list';
-import {connect, ConnectedProps} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {State} from '../../types/state';
-import { Offer } from '../../types/offer';
-import { AppRoute, SortOption } from '../../const';
-import {getCurrentSortOption, getCurrentCity} from '../../store/main-screen/selectors';
+import { AppRoute } from '../../const';
+import { getCurrentCity} from '../../store/main-screen/selectors';
+import { getSortedOffers } from '../../store/data-offers/selectors';
+import { useSelector} from 'react-redux';
 
 const getCitiesCoordinates = (city:string) => {
   switch(city){
@@ -25,40 +24,10 @@ const getCitiesCoordinates = (city:string) => {
   }
 };
 
-type MainScreenProps = {
-  offers: Offer[],
-}
-
-const getSortedOffers = (currentSortOption : string, offers: Offer[]) => {
-  switch(currentSortOption){
-    case SortOption.PriceHighToLow: {
-      return offers.slice().sort((offerA, offerB) => offerB.price - offerA.price);
-    }
-    case SortOption.PriceLowToHigh: {
-      return offers.slice().sort((offerA, offerB) => offerA.price - offerB.price);
-    }
-    case SortOption.TopRatedFirst: {
-      return offers.slice().sort((offerA, offerB) => offerB.rating - offerA.rating);
-    }
-    default: {
-      return offers;
-    }
-  }
-};
-
-const mapStateToProps = (state :State) => ({
-  currentCity: getCurrentCity(state),
-  currentSortOption: getCurrentSortOption(state),
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & MainScreenProps;
-
-function MainScreen({offers, currentCity, currentSortOption}: ConnectedComponentProps): JSX.Element {
+function MainScreen(): JSX.Element {
   const [idActiveOffer, setIdActiveOffer] = useState<null | number>(null);
-  const sortedOffers = getSortedOffers(currentSortOption, offers);
+  const currentCity = useSelector(getCurrentCity);
+  const sortedOffers = useSelector(getSortedOffers);
 
   return (
     <div className="page page--gray page--main">
@@ -97,12 +66,12 @@ function MainScreen({offers, currentCity, currentSortOption}: ConnectedComponent
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in {currentCity}</b>
+              <b className="places__found">{sortedOffers.length} places to stay in {currentCity}</b>
               <Sort />
               <OffersList offers={sortedOffers} onCardFocus={setIdActiveOffer}/>
             </section>
             <div className="cities__right-section">
-              <Map city={getCitiesCoordinates(currentCity)} offers={offers} idActiveOffer={idActiveOffer}/>
+              <Map city={getCitiesCoordinates(currentCity)} offers={sortedOffers} idActiveOffer={idActiveOffer}/>
             </div>
           </div>
         </div>
@@ -110,5 +79,4 @@ function MainScreen({offers, currentCity, currentSortOption}: ConnectedComponent
     </div>);
 }
 
-export default connector(MainScreen);
-export {MainScreen};
+export default MainScreen;

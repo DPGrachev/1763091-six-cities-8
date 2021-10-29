@@ -1,25 +1,19 @@
 import { Data } from '../../types/state';
-import { Actions } from '../../types/action';
-import { ActionType } from '../../const';
+import { createReducer } from '@reduxjs/toolkit';
+import { setOffers } from '../action';
 
 const initialState : Data = {
   offers: [],
   isDataLoaded: false,
 };
 
-const dataOffers = (state = initialState, action: Actions): Data => {
-  switch(action.type){
-    case ActionType.SetOffers: {
-      return {
-        ...state,
-        offers: action.payload.offers,
-        isDataLoaded: true,
-      };
-    }
-    default: {
-      return state;
-    }
-  }
-};
+const dataOffers = createReducer(initialState, (builder) => {
+  builder
+    .addCase(setOffers, (state,action) => {
+      state.offers = action.payload.offers;
+      state.isDataLoaded = true;
+    });
+});
+
 
 export {dataOffers};

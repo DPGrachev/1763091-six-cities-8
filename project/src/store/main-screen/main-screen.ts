@@ -1,24 +1,21 @@
 import { MainScreen} from '../../types/state';
-import { Actions } from '../../types/action';
-import { CityName, SortOption, ActionType } from '../../const';
+import { CityName, SortOption } from '../../const';
+import { createReducer } from '@reduxjs/toolkit';
+import { setCity, setSortOption } from '../action';
 
 const initialState : MainScreen = {
   currentCity: CityName.Paris,
   currentSortOption: SortOption.Popular,
 };
 
-const mainScreen = (state = initialState, action: Actions): MainScreen => {
-  switch(action.type){
-    case ActionType.SetCity: {
-      return {...state, currentCity: action.payload.currentCity};
-    }
-    case ActionType.SetSortOption: {
-      return {...state, currentSortOption: action.payload.currentSortOption};
-    }
-    default: {
-      return state;
-    }
-  }
-};
+const mainScreen = createReducer(initialState, (builder) => {
+  builder
+    .addCase(setCity, (state, acton) => {
+      state.currentCity = acton.payload.currentCity;
+    })
+    .addCase(setSortOption, (state, action) => {
+      state.currentSortOption = action.payload.currentSortOption;
+    });
+});
 
 export {mainScreen};
