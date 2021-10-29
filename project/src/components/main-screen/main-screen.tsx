@@ -45,9 +45,9 @@ const getSortedOffers = (currentSortOption : string, offers: Offer[]) => {
   }
 };
 
-const mapStateToProps = ({currentCity, currentSortOption}:State) => ({
-  currentCity,
-  currentSortOption,
+const mapStateToProps = ({MAIN}:State) => ({
+  currentCity: MAIN.currentCity,
+  currentSortOption: MAIN.currentSortOption,
 });
 
 const connector = connect(mapStateToProps);

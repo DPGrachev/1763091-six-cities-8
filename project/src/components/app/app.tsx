@@ -14,10 +14,10 @@ import browserHistory from '../../browser-history';
 const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Unknown;
 
-const mapStateToProps = ({offers, authorizationStatus, isDataLoaded}:State) => ({
-  offers,
-  authorizationStatus,
-  isDataLoaded,
+const mapStateToProps = ({DATA, USER}:State) => ({
+  offers: DATA.offers,
+  authorizationStatus: USER.authorizationStatus,
+  isDataLoaded: DATA.isDataLoaded,
 });
 
 const connector = connect(mapStateToProps);

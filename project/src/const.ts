@@ -18,9 +18,9 @@ const enum ActionType {
   SetCurrentOffer = 'room-screen/set-current-offer',
   SetComments = 'room-screen/set-comments',
   SetNearbyOffers = 'room-screen/set-nearby-offers',
-  SetOffers = 'data/set-offers',
-  RequireAuthorization = 'user/require-authorization',
-  RequireLogout = 'user/require-logout',
+  SetOffers = 'data-offers/set-offers',
+  RequireAuthorization = 'user-status/require-authorization',
+  RequireLogout = 'user-status/require-logout',
 }
 
 const enum APIRoute {

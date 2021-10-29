@@ -18,11 +18,11 @@ type Params = {
   id: string;
 }
 
-const mapStateToProps = ({currentOffer, nearbyOffers, comments, authorizationStatus}:State) => ({
-  currentOffer,
-  nearbyOffers,
-  comments,
-  authorizationStatus,
+const mapStateToProps = ({ROOM, USER}:State) => ({
+  currentOffer: ROOM.currentOffer,
+  nearbyOffers: ROOM.nearbyOffers,
+  comments: ROOM.comments,
+  authorizationStatus: USER.authorizationStatus,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
