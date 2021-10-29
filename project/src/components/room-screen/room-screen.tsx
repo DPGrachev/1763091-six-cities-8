@@ -47,22 +47,21 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 function RoomScreen({currentOffer, nearbyOffers, comments, authorizationStatus, setCurrentOfferAction, setCommentsAction, setNearbyOfferAction, onNewCommentSubmit}: PropsFromRedux): JSX.Element {
   const params: Params = useParams();
   const currentRoomId = Number(params.id);
-  const currentRoom = currentOffer;
 
   const handleNewCommentSubmit = ({comment, rating}: CommentPost) => onNewCommentSubmit({comment, rating}, currentRoomId);
 
   useEffect(()=>{
     setCurrentOfferAction(currentRoomId);
-    if(currentRoom){
+    if(currentOffer){
       setCommentsAction(currentRoomId);
       setNearbyOfferAction(currentRoomId);
     }
-  }, [currentRoom, currentRoomId, setCommentsAction, setCurrentOfferAction, setNearbyOfferAction]);
+  }, [currentOffer, currentRoomId, setCommentsAction, setCurrentOfferAction, setNearbyOfferAction]);
 
-  if(!currentRoom || currentRoom.id !== currentRoomId){
+  if(!currentOffer || currentOffer.id !== currentRoomId){
     return <LoadingScreen />;
   }
-  const {price, description, goods, title, city, isPremium, rating, type, bedrooms, maxAdults, images, host} = currentRoom;
+  const {price, description, goods, title, city, isPremium, rating, type, bedrooms, maxAdults, images, host} = currentOffer;
 
   return (
     <div className="page">

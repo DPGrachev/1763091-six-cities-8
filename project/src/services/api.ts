@@ -11,7 +11,7 @@ enum HttpCode {
 
 type errorCallback = () => void;
 
-const createAPI = (onUnauthorized: errorCallback, notFound: errorCallback): AxiosInstance => {
+const createAPI = (onUnauthorized: errorCallback, onNotFound: errorCallback): AxiosInstance => {
   const api = axios.create({
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT,
@@ -27,7 +27,7 @@ const createAPI = (onUnauthorized: errorCallback, notFound: errorCallback): Axio
         return onUnauthorized();
       }
       if (response?.status === HttpCode.NotFound){
-        return notFound();
+        return onNotFound();
       }
 
       return Promise.reject(error);
