@@ -29,6 +29,7 @@ const enum APIRoute {
   Logout = '/logout',
   Comments = '/comments',
   Nearby = '/nearby',
+  Favorite = '/favorite',
 }
 
 enum CityName {

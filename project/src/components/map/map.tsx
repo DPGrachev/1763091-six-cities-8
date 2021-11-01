@@ -47,6 +47,7 @@ function Map(props: MapProps): JSX.Element {
               : defaultCustomIcon,
           )
           .addTo(map);
+
       });
     }
   }, [cityCoordinates ,map, offers, idActiveOffer]);

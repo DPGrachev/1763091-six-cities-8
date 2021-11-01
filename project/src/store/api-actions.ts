@@ -104,6 +104,16 @@ const addNewCommentAction = ({comment, rating}: CommentPost, currentOfferId: num
       .then((response) => dispatch(setComments(response)));
   };
 
+const changeFavoriteStatus = (currentOfferId: number, favoriteStatus: number): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    await api.post<OfferFromServer>(`${APIRoute.Favorite}/${currentOfferId}/${favoriteStatus}`)
+      .then((response) => {
+        if (response.data) {
+          adaptOfferToClient(response.data);
+        }
+      });
+  };
+
 const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     const {data: {token}} = await api.post<{token: Token}>(APIRoute.Login, {email, password});
@@ -118,4 +128,4 @@ const logoutAction = (): ThunkActionResult =>
     dispatch(requireLogout());
   };
 
-export {fetchOffersAction,fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction, addNewCommentAction, checkAuthAction, loginAction, logoutAction};
+export {fetchOffersAction,fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction, addNewCommentAction, checkAuthAction, loginAction, logoutAction, changeFavoriteStatus};
