@@ -1,4 +1,4 @@
-import { AuthorizationStatus } from '../const';
+import { AuthorizationStatus, CityName } from '../const';
 import { Offer } from './offer';
 import { Review } from './review';
 import {RootState} from '../store/root-reducer';
@@ -10,7 +10,7 @@ type User = {
 }
 
 type MainScreen = {
-  currentCity: string,
+  currentCity: CityName,
   currentSortOption: string,
 }
 

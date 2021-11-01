@@ -4,24 +4,11 @@ import Sort from '../sort/sort';
 import { useState } from 'react';
 import { getSortedOffers } from '../../store/data-offers/selectors';
 import { useSelector} from 'react-redux';
+import { CityName } from '../../const';
 
 type ContentAreaProps = {
-  currentCity: string,
+  currentCity: CityName,
 }
-
-const getCitiesCoordinates = (city:string) => {
-  switch(city){
-    case 'Paris':{
-      return {latitude: 48.8534,longitude: 2.3488,zoom: 10};
-    }
-    case 'Amsterdam':{
-      return {latitude: 52.3909553943508,longitude: 4.85309666406198,zoom: 10};
-    }
-    default :{
-      return {latitude: 52.3909553943508,longitude: 4.85309666406198,zoom: 10};
-    }
-  }
-};
 
 function ContentArea ({currentCity} : ContentAreaProps): JSX.Element {
   const [idActiveOffer, setIdActiveOffer] = useState<null | number>(null);
@@ -36,7 +23,7 @@ function ContentArea ({currentCity} : ContentAreaProps): JSX.Element {
         <OffersList offers={sortedOffers} onCardFocus={setIdActiveOffer}/>
       </section>
       <div className="cities__right-section">
-        <Map city={getCitiesCoordinates(currentCity)} offers={sortedOffers} idActiveOffer={idActiveOffer}/>
+        <Map city={currentCity} offers={sortedOffers} idActiveOffer={idActiveOffer}/>
       </div>
     </div>
   );

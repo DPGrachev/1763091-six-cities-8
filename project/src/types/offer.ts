@@ -1,3 +1,5 @@
+import { CityName } from '../const';
+
 type Location = {
   latitude: number,
   longitude: number,
@@ -8,7 +10,7 @@ type OfferFromServer = {
   bedrooms: number,
   city: {
     location: Location,
-    name: string
+    name: CityName,
   },
   description: string,
   goods: string[],
@@ -35,7 +37,7 @@ type Offer = {
   bedrooms: number,
   city: {
     location: Location,
-    name: string
+    name: CityName,
   },
   description: string,
   goods: string[],

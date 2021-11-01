@@ -1,11 +1,11 @@
-import { ActionType, AuthorizationStatus } from '../const';
+import { ActionType, AuthorizationStatus, CityName } from '../const';
 import { createAction } from '@reduxjs/toolkit';
 import { Offer } from '../types/offer';
 import { Review } from '../types/review';
 
 const setCity = createAction(
   ActionType.SetCity,
-  (cityName:string) => ({
+  (cityName: CityName) => ({
     payload: {
       currentCity: cityName,
     },

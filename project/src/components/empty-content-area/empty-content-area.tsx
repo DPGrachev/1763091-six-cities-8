@@ -1,5 +1,7 @@
+import { CityName } from '../../const';
+
 type EmptyContentAreaProps = {
-  currentCity: string,
+  currentCity: CityName,
 }
 
 function EmptyContentArea ({currentCity} : EmptyContentAreaProps): JSX.Element {

@@ -10,6 +10,8 @@ function useMap(
 
   useEffect(() => {
     if (mapRef.current !== null && map === null) {
+      // eslint-disable-next-line no-console
+      console.log('efef');
       const instance = new Map(mapRef.current, {
         center: {
           lat: city.latitude,
