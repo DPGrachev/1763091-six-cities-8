@@ -5,7 +5,7 @@ import { getCurrentCity, getCurrentSortOption } from '../main-screen/selectors';
 import { createSelector } from 'reselect';
 import { SortOption } from '../../const';
 
-const getOffers = (state: State) : Offer[] => state[NameSpace.data].offers;
+const getOffers = (state: State) : Offer[] => state[NameSpace.Data].offers;
 
 const getOffersInCurrentCity = createSelector(
   getOffers,
@@ -34,6 +34,6 @@ const getSortedOffers = createSelector(
   },
 );
 
-const getLoadedDataStatus = (state: State) : boolean => state[NameSpace.data].isDataLoaded;
+const getLoadedDataStatus = (state: State) : boolean => state[NameSpace.Data].isDataLoaded;
 
 export {getOffersInCurrentCity, getLoadedDataStatus, getSortedOffers};

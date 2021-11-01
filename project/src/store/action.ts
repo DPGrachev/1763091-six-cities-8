@@ -48,7 +48,7 @@ const setNearbyOffers = createAction(
   }),
 );
 
-const setSortOption = createAction(
+const setCurrentSortOption = createAction(
   ActionType.SetSortOption,
   (sortOption: string) => ({
     payload: {
@@ -66,4 +66,4 @@ const requireAuthorization = createAction(
 
 const requireLogout = createAction(ActionType.RequireLogout);
 
-export {setCity, setOffers, setCurrentOffer, setNearbyOffers, setComments, setSortOption, requireAuthorization, requireLogout};
+export {setCity, setOffers, setCurrentOffer, setNearbyOffers, setComments, setCurrentSortOption, requireAuthorization, requireLogout};

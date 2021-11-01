@@ -1,8 +1,8 @@
-import { Data } from '../../types/state';
+import { DataOffers } from '../../types/state';
 import { createReducer } from '@reduxjs/toolkit';
 import { setOffers } from '../action';
 
-const initialState : Data = {
+const initialState : DataOffers = {
   offers: [],
   isDataLoaded: false,
 };

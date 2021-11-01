@@ -20,9 +20,9 @@ type RoomScreen = {
   nearbyOffers: Offer[],
 }
 
-type Data = {
+type DataOffers = {
   offers: Offer[],
   isDataLoaded: boolean,
 }
 
-export type {User, MainScreen, RoomScreen, Data, State};
+export type {User, MainScreen, RoomScreen, DataOffers, State};
