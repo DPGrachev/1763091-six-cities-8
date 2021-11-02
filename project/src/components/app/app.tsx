@@ -9,14 +9,13 @@ import {AppRoute, AuthorizationStatus} from '../../const';
 import LoadingScreen from '../loading/loading';
 import browserHistory from '../../browser-history';
 import {getAuthorizationStatus} from '../../store/user-status/selectors';
-import {getOffersInCurrentCity, getLoadedDataStatus} from '../../store/data-offers/selectors';
+import { getLoadedDataStatus} from '../../store/data-offers/selectors';
 import { useSelector} from 'react-redux';
 
 const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Unknown;
 
 function App(): JSX.Element {
-  const offers = useSelector(getOffersInCurrentCity);
   const authorizationStatus = useSelector(getAuthorizationStatus);
   const isDataLoaded = useSelector(getLoadedDataStatus);
 
@@ -41,7 +40,7 @@ function App(): JSX.Element {
         <PrivateRoute
           exact
           path={AppRoute.Favorites}
-          render={() => <FavoritesScreen offers={offers}/>}
+          render={() => <FavoritesScreen />}
         >
         </PrivateRoute>
         <Route path={AppRoute.NotFound} >

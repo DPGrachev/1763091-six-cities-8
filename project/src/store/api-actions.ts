@@ -1,5 +1,5 @@
 import {ThunkActionResult} from '../types/action';
-import {setOffers, setComments, setNearbyOffers, requireAuthorization, requireLogout, setCurrentOffer} from './action';
+import {setOffers, setComments, setNearbyOffers, requireAuthorization, requireLogout, setCurrentOffer, setFavoriteOffers} from './action';
 import {saveToken, dropToken, Token} from '../services/token';
 import {APIRoute, AuthorizationStatus} from '../const';
 import { Offer, OfferFromServer } from '../types/offer';
@@ -61,6 +61,13 @@ const fetchOffersAction = (): ThunkActionResult =>
     await api.get<OfferFromServer[]>(APIRoute.Offers)
       .then((response) => response.data.map((offer) => adaptOfferToClient(offer)))
       .then((response) => dispatch(setOffers(response)));
+  };
+
+const fetchFavoriteOffersAction = (): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    await api.get<OfferFromServer[]>(APIRoute.Favorite)
+      .then((response) => response.data.map((offer) => adaptOfferToClient(offer)))
+      .then((response) => dispatch(setFavoriteOffers(response)));
   };
 
 const fetchCurrentOfferAction = (currentOfferId: number): ThunkActionResult =>
@@ -128,4 +135,4 @@ const logoutAction = (): ThunkActionResult =>
     dispatch(requireLogout());
   };
 
-export {fetchOffersAction,fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction, addNewCommentAction, checkAuthAction, loginAction, logoutAction, changeFavoriteStatus};
+export {fetchOffersAction, fetchFavoriteOffersAction, fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction, addNewCommentAction, checkAuthAction, loginAction, logoutAction, changeFavoriteStatus};

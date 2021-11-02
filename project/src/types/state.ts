@@ -22,6 +22,7 @@ type RoomScreen = {
 
 type DataOffers = {
   offers: Offer[],
+  favoriteOffers: Offer[],
   isDataLoaded: boolean,
 }
 

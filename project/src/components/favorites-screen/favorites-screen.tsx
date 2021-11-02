@@ -1,14 +1,20 @@
 import { Link } from 'react-router-dom';
 import Logo from '../header/header';
 import {AppRoute} from '../../const';
-import {Offer} from '../../types/offer';
 import FavoriteOfferCard from '../favorite-offer-card/favorite-offer-card';
+import {useDispatch, useSelector} from 'react-redux';
+import { fetchFavoriteOffersAction } from '../../store/api-actions';
+import { getFavoriteOffers } from '../../store/data-offers/selectors';
+import { useEffect } from 'react';
 
-type FavoriteScreenProps = {
-  offers: Offer[];
-}
+function FavoritesScreen(): JSX.Element{
+  const dispatch = useDispatch();
+  const favoriteOffers = useSelector(getFavoriteOffers);
 
-function FavoritesScreen({offers}: FavoriteScreenProps): JSX.Element{
+  useEffect(()=> {
+    dispatch(fetchFavoriteOffersAction());
+  },[dispatch]);
+
   return (
     <div className="page">
       <header className="header">
@@ -51,7 +57,7 @@ function FavoritesScreen({offers}: FavoriteScreenProps): JSX.Element{
                   </div>
                 </div>
                 <div className="favorites__places">
-                  {offers.map((favoriteOfferCard) => <FavoriteOfferCard key={favoriteOfferCard.id} offer={favoriteOfferCard}/>)}
+                  {favoriteOffers.map((favoriteOfferCard) => <FavoriteOfferCard key={favoriteOfferCard.id} offer={favoriteOfferCard}/>)}
                 </div>
               </li>
             </ul>

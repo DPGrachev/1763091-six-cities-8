@@ -1,7 +1,6 @@
 import {Offer} from '../../types/offer';
 import {Link, useHistory} from 'react-router-dom';
 import {getRatingInStars} from '../../utils';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { changeFavoriteStatus, fetchOffersAction } from '../../store/api-actions';
 import {useDispatch, useSelector} from 'react-redux';
 import { getAuthorizationStatus } from '../../store/user-status/selectors';

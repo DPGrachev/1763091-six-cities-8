@@ -21,6 +21,15 @@ const setOffers = createAction(
   }),
 );
 
+const setFavoriteOffers = createAction(
+  ActionType.SetFavoriteOffers,
+  (offers: Offer[]) => ({
+    payload: {
+      offers,
+    },
+  }),
+);
+
 const setCurrentOffer = createAction(
   ActionType.SetCurrentOffer,
   (offer: Offer) => ({
@@ -66,4 +75,4 @@ const requireAuthorization = createAction(
 
 const requireLogout = createAction(ActionType.RequireLogout);
 
-export {setCity, setOffers, setCurrentOffer, setNearbyOffers, setComments, setCurrentSortOption, requireAuthorization, requireLogout};
+export {setCity, setOffers, setFavoriteOffers, setCurrentOffer, setNearbyOffers, setComments, setCurrentSortOption, requireAuthorization, requireLogout};

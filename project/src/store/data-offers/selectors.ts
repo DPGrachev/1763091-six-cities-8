@@ -7,6 +7,8 @@ import { SortOption } from '../../const';
 
 const getOffers = (state: State) : Offer[] => state[NameSpace.Data].offers;
 
+const getFavoriteOffers = (state: State) : Offer[] => state[NameSpace.Data].favoriteOffers;
+
 const getOffersInCurrentCity = createSelector(
   getOffers,
   getCurrentCity,
@@ -36,4 +38,4 @@ const getSortedOffers = createSelector(
 
 const getLoadedDataStatus = (state: State) : boolean => state[NameSpace.Data].isDataLoaded;
 
-export {getOffersInCurrentCity, getLoadedDataStatus, getSortedOffers};
+export {getOffersInCurrentCity, getLoadedDataStatus, getSortedOffers, getFavoriteOffers};
