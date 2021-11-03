@@ -1,5 +1,5 @@
 import {ThunkActionResult} from '../types/action';
-import {setOffers, setComments, setNearbyOffers, requireAuthorization, requireLogout, setCurrentOffer, setFavoriteOffers} from './action';
+import {setOffers, setComments, setNearbyOffers, requireAuthorization, requireLogout, setCurrentOffer, setFavoriteOffers, updateFavoriteOffers, updateOffers} from './action';
 import {saveToken, dropToken, Token} from '../services/token';
 import {APIRoute, AuthorizationStatus} from '../const';
 import { Offer, OfferFromServer } from '../types/offer';
@@ -114,10 +114,10 @@ const addNewCommentAction = ({comment, rating}: CommentPost, currentOfferId: num
 const changeFavoriteStatus = (currentOfferId: number, favoriteStatus: number): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     await api.post<OfferFromServer>(`${APIRoute.Favorite}/${currentOfferId}/${favoriteStatus}`)
+      .then((response) => adaptOfferToClient(response.data))
       .then((response) => {
-        if (response.data) {
-          adaptOfferToClient(response.data);
-        }
+        dispatch(updateOffers(response));
+        dispatch(updateFavoriteOffers(response));
       });
   };
 

@@ -5,7 +5,7 @@ import EmptyFavoriteScreen from '../empty-favorite-screen/empty-favorite-screen'
 import {AppRoute, CityName} from '../../const';
 import {useDispatch, useSelector} from 'react-redux';
 import { fetchFavoriteOffersAction } from '../../store/api-actions';
-import { getFavoriteOffers } from '../../store/data-offers/selectors';
+import { getFavoriteLocation, getFavoriteOffers } from '../../store/data-offers/selectors';
 import { useEffect } from 'react';
 import { Offer } from '../../types/offer';
 
@@ -14,11 +14,7 @@ const getOffersInCurrentCity = (offers: Offer[], city: CityName) => offers.slice
 function FavoritesScreen(): JSX.Element{
   const dispatch = useDispatch();
   const favoriteOffers = useSelector(getFavoriteOffers);
-  const favoriteLocations = new Map<CityName, CityName>();
-
-  if(favoriteOffers.length > 0){
-    favoriteOffers.forEach((offer) => favoriteLocations.set(offer.city.name, offer.city.name));
-  }
+  const favoriteLocations = useSelector(getFavoriteLocation);
 
   useEffect(()=> {
     dispatch(fetchFavoriteOffersAction());
@@ -35,11 +31,7 @@ function FavoritesScreen(): JSX.Element{
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
               <ul className="favorites__list">
-                {Object.values(CityName).map((city) => {
-                  if(favoriteLocations.has(city)){
-                    return <FavoriteOffersList key={city} city={city} offers={getOffersInCurrentCity(favoriteOffers,city)}/>;
-                  }
-                })}
+                {favoriteLocations.map((city) => <FavoriteOffersList key={city} city={city} offers={getOffersInCurrentCity(favoriteOffers,city)}/>)}
               </ul>
             </section>
           </div>

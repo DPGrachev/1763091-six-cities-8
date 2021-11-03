@@ -19,7 +19,9 @@ const enum ActionType {
   SetComments = 'room-screen/set-comments',
   SetNearbyOffers = 'room-screen/set-nearby-offers',
   SetOffers = 'data-offers/set-offers',
+  UpdateOffers = 'data-offers/update-offers',
   SetFavoriteOffers = 'data-offers/set-favorite-offers',
+  UpdateFavoriteOffers = 'data-offers/update-favorite-offers',
   RequireAuthorization = 'user-status/require-authorization',
   RequireLogout = 'user-status/require-logout',
 }

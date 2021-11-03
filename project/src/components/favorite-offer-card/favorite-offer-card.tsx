@@ -1,6 +1,6 @@
 import {Offer} from '../../types/offer';
 import { getRatingInStars } from '../../utils';
-import { changeFavoriteStatus, fetchFavoriteOffersAction } from '../../store/api-actions';
+import { changeFavoriteStatus } from '../../store/api-actions';
 import {useDispatch} from 'react-redux';
 
 type FavoriteOfferCardProps = {
@@ -13,7 +13,6 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element{
 
   const handleFavoriteClick = () => {
     dispatch(changeFavoriteStatus(id, Number(!isFavorite)));
-    dispatch(fetchFavoriteOffersAction());
   };
 
   return (

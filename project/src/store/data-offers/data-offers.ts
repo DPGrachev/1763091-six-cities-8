@@ -1,6 +1,6 @@
 import { DataOffers } from '../../types/state';
 import { createReducer } from '@reduxjs/toolkit';
-import { setFavoriteOffers, setOffers } from '../action';
+import { setFavoriteOffers, setOffers, updateFavoriteOffers, updateOffers } from '../action';
 
 const initialState : DataOffers = {
   offers: [],
@@ -14,8 +14,18 @@ const dataOffers = createReducer(initialState, (builder) => {
       state.offers = action.payload.offers;
       state.isDataLoaded = true;
     })
+    .addCase(updateOffers, (state,action) => {
+      state.offers.forEach((offer) => {
+        if(offer.id === action.payload.offer.id){
+          offer.isFavorite = action.payload.offer.isFavorite;
+        }
+      });
+    })
     .addCase(setFavoriteOffers,(state,action) => {
       state.favoriteOffers = action.payload.offers;
+    })
+    .addCase(updateFavoriteOffers, (state, action) => {
+      state.favoriteOffers = state.favoriteOffers.filter((offer) => offer.id !== action.payload.offer.id);
     });
 });
 

@@ -1,7 +1,7 @@
 import {Offer} from '../../types/offer';
 import {Link, useHistory} from 'react-router-dom';
 import {getRatingInStars} from '../../utils';
-import { changeFavoriteStatus, fetchOffersAction } from '../../store/api-actions';
+import { changeFavoriteStatus } from '../../store/api-actions';
 import {useDispatch, useSelector} from 'react-redux';
 import { getAuthorizationStatus } from '../../store/user-status/selectors';
 import {AppRoute, AuthorizationStatus} from '../../const';
@@ -23,7 +23,6 @@ function OfferCard(props: OfferCardProps): JSX.Element{
       return;
     }
     dispatch(changeFavoriteStatus(id, Number(!isFavorite)));
-    dispatch(fetchOffersAction());
   };
 
   const handleMouseOver = () => {

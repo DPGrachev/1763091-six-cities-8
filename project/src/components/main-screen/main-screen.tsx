@@ -8,7 +8,7 @@ import EmptyContentArea from '../empty-content-area/empty-content-area';
 
 function MainScreen(): JSX.Element {
   const currentCity = useSelector(getCurrentCity);
-  const OffersInCurrentCity = useSelector(getOffersInCurrentCity);
+  const offersInCurrentCity = useSelector(getOffersInCurrentCity);
 
   return (
     <div className="page page--gray page--main">
@@ -20,7 +20,7 @@ function MainScreen(): JSX.Element {
         </div>
         <div className="cities">
           {
-            OffersInCurrentCity.length > 0
+            offersInCurrentCity.length > 0
               ? <ContentArea currentCity={currentCity} />
               : <EmptyContentArea currentCity={currentCity} />
           }

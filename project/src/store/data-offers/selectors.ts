@@ -3,11 +3,16 @@ import { Offer } from '../../types/offer';
 import {State} from '../../types/state';
 import { getCurrentCity, getCurrentSortOption } from '../main-screen/selectors';
 import { createSelector } from 'reselect';
-import { SortOption } from '../../const';
+import { CityName, SortOption } from '../../const';
 
 const getOffers = (state: State) : Offer[] => state[NameSpace.Data].offers;
 
 const getFavoriteOffers = (state: State) : Offer[] => state[NameSpace.Data].favoriteOffers;
+
+const getFavoriteLocation = (state: State) : CityName[] => {
+  const locations = state[NameSpace.Data].favoriteOffers.reduce((acc : CityName[], val) =>  acc.concat(val.city.name), []);
+  return [...new Set(locations)];
+};
 
 const getOffersInCurrentCity = createSelector(
   getOffers,
@@ -38,4 +43,4 @@ const getSortedOffers = createSelector(
 
 const getLoadedDataStatus = (state: State) : boolean => state[NameSpace.Data].isDataLoaded;
 
-export {getOffersInCurrentCity, getLoadedDataStatus, getSortedOffers, getFavoriteOffers};
+export {getOffersInCurrentCity, getLoadedDataStatus, getSortedOffers, getFavoriteOffers, getFavoriteLocation};

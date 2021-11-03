@@ -21,11 +21,29 @@ const setOffers = createAction(
   }),
 );
 
+const updateOffers = createAction(
+  ActionType.UpdateOffers,
+  (offer: Offer) => ({
+    payload: {
+      offer,
+    },
+  }),
+);
+
 const setFavoriteOffers = createAction(
   ActionType.SetFavoriteOffers,
   (offers: Offer[]) => ({
     payload: {
       offers,
+    },
+  }),
+);
+
+const updateFavoriteOffers = createAction(
+  ActionType.UpdateFavoriteOffers,
+  (offer: Offer) => ({
+    payload: {
+      offer,
     },
   }),
 );
@@ -75,4 +93,4 @@ const requireAuthorization = createAction(
 
 const requireLogout = createAction(ActionType.RequireLogout);
 
-export {setCity, setOffers, setFavoriteOffers, setCurrentOffer, setNearbyOffers, setComments, setCurrentSortOption, requireAuthorization, requireLogout};
+export {setCity, setOffers, updateOffers, setFavoriteOffers, updateFavoriteOffers, setCurrentOffer, setNearbyOffers, setComments, setCurrentSortOption, requireAuthorization, requireLogout};
