@@ -12,7 +12,7 @@ type HeaderProps = {
 function Header({isLoginScreen} : HeaderProps): JSX.Element {
   const authorizationStatus = useSelector(getAuthorizationStatus);
   const dispatch = useDispatch();
-  const onClickSignOut = () => dispatch(requireLogout());
+  const handleClickSignOut = () => dispatch(requireLogout());
 
   return (
     <header className="header">
@@ -38,7 +38,7 @@ function Header({isLoginScreen} : HeaderProps): JSX.Element {
                 {authorizationStatus === AuthorizationStatus.Auth &&
                 <li className="header__nav-item">
                   <a className="header__nav-link" href="/">
-                    <span className="header__signout" onClick={onClickSignOut}>Sign out</span>
+                    <span className="header__signout" onClick={handleClickSignOut}>Sign out</span>
                   </a>
                 </li>}
               </ul>

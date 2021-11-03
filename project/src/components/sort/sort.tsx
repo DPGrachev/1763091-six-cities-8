@@ -1,5 +1,5 @@
 import { SortOption } from '../../const';
-import { setSortOption } from '../../store/action';
+import { setCurrentSortOption } from '../../store/action';
 import SortOptionItem from '../sort-option-item/sort-option-item';
 import {getCurrentSortOption} from '../../store/main-screen/selectors';
 import {useDispatch, useSelector} from 'react-redux';
@@ -8,8 +8,8 @@ function Sort (): JSX.Element {
   const currentSortOption = useSelector(getCurrentSortOption);
   const dispatch = useDispatch();
 
-  const onSortOptionChange = (sortOption: string) => {
-    dispatch(setSortOption(sortOption));
+  const handleSortChange = (sortOption: string) => {
+    dispatch(setCurrentSortOption(sortOption));
   };
 
   const handleSortListClick = () => {
@@ -23,7 +23,7 @@ function Sort (): JSX.Element {
 
   const handleSortOptionChange = (sortOption: string) => {
     handleSortListClick();
-    onSortOptionChange(sortOption);
+    handleSortChange(sortOption);
   };
 
   return (

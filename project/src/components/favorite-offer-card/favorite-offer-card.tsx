@@ -1,11 +1,19 @@
 import {Offer} from '../../types/offer';
+import { getRatingInStars } from '../../utils';
+import { changeFavoriteStatus } from '../../store/api-actions';
+import {useDispatch} from 'react-redux';
 
 type FavoriteOfferCardProps = {
   offer: Offer;
 }
 
 function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element{
-  const {previewImage, price, title} = offer;
+  const {previewImage, price, title, rating, type, id, isFavorite} = offer;
+  const dispatch = useDispatch();
+
+  const handleFavoriteClick = () => {
+    dispatch(changeFavoriteStatus(id, Number(!isFavorite)));
+  };
 
   return (
     <article className="favorites__card place-card">
@@ -20,7 +28,7 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element{
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button" onClick={handleFavoriteClick}>
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -29,14 +37,14 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element{
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: '100%'}}></span>
+            <span style={{width: getRatingInStars(rating)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
           <a href="/">{title}</a>
         </h2>
-        <p className="place-card__type">Apartment</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>);
 }

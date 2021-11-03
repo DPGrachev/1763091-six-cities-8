@@ -131,7 +131,7 @@ function RoomScreen(): JSX.Element {
               </section>
             </div>
           </div>
-          <Map city={city.location} offers={nearbyOffers} isRoomScreenMap/>
+          <Map city={city.name} offers={nearbyOffers} isRoomScreenMap/>
         </section>
         <div className="container">
           <section className="near-places places">

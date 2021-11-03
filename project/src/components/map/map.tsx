@@ -1,11 +1,12 @@
 import {useRef, useEffect} from 'react';
 import {Icon, Marker} from 'leaflet';
 import useMap from '../../hooks/useMap';
-import { Offer, Location } from '../../types/offer';
+import { Offer } from '../../types/offer';
+import { CityName, CityCoordinates } from '../../const';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
-  city: Location,
+  city: CityName,
   offers: Offer[],
   idActiveOffer?: number | null;
   isRoomScreenMap?: boolean;
@@ -25,13 +26,14 @@ const currentCustomIcon = new Icon({
 
 function Map(props: MapProps): JSX.Element {
   const {city, offers, idActiveOffer, isRoomScreenMap} = props;
+  const cityCoordinates = CityCoordinates[city];
 
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap(mapRef, cityCoordinates);
 
   useEffect(() => {
     if (map) {
-      map.flyTo([city.latitude,city.longitude],city.zoom);
+      map.flyTo([cityCoordinates.latitude,cityCoordinates.longitude],cityCoordinates.zoom);
       offers.forEach((offer) => {
         const marker = new Marker({
           lat: offer.location.latitude,
@@ -45,9 +47,10 @@ function Map(props: MapProps): JSX.Element {
               : defaultCustomIcon,
           )
           .addTo(map);
+
       });
     }
-  }, [city,map, offers, idActiveOffer]);
+  }, [cityCoordinates ,map, offers, idActiveOffer]);
 
   return <section ref={mapRef} className={isRoomScreenMap ? 'property__map map' : 'cities__map map'}></section>;
 }

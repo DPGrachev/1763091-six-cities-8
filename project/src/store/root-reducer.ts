@@ -5,17 +5,17 @@ import { roomScreen } from './room-screen/room-screen';
 import { userStatus } from './user-status/user-status';
 
 const enum NameSpace {
-  data = 'DATA',
-  main = 'MAIN',
-  room = 'ROOM',
-  user = 'USER',
+  Data = 'DATA',
+  Main = 'MAIN',
+  Room = 'ROOM',
+  User = 'USER',
 }
 
 const rootReducer = combineReducers({
-  [NameSpace.data]: dataOffers,
-  [NameSpace.main]: mainScreen,
-  [NameSpace.room]: roomScreen,
-  [NameSpace.user]: userStatus,
+  [NameSpace.Data]: dataOffers,
+  [NameSpace.Main]: mainScreen,
+  [NameSpace.Room]: roomScreen,
+  [NameSpace.User]: userStatus,
 });
 
 type RootState = ReturnType<typeof rootReducer>;

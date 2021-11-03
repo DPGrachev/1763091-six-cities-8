@@ -1,7 +1,7 @@
 import { MainScreen} from '../../types/state';
 import { CityName, SortOption } from '../../const';
 import { createReducer } from '@reduxjs/toolkit';
-import { setCity, setSortOption } from '../action';
+import { setCity, setCurrentSortOption } from '../action';
 
 const initialState : MainScreen = {
   currentCity: CityName.Paris,
@@ -13,7 +13,7 @@ const mainScreen = createReducer(initialState, (builder) => {
     .addCase(setCity, (state, acton) => {
       state.currentCity = acton.payload.currentCity;
     })
-    .addCase(setSortOption, (state, action) => {
+    .addCase(setCurrentSortOption, (state, action) => {
       state.currentSortOption = action.payload.currentSortOption;
     });
 });

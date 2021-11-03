@@ -1,4 +1,4 @@
-import { AuthorizationStatus } from '../const';
+import { AuthorizationStatus, CityName } from '../const';
 import { Offer } from './offer';
 import { Review } from './review';
 import {RootState} from '../store/root-reducer';
@@ -10,7 +10,7 @@ type User = {
 }
 
 type MainScreen = {
-  currentCity: string,
+  currentCity: CityName,
   currentSortOption: string,
 }
 
@@ -20,9 +20,10 @@ type RoomScreen = {
   nearbyOffers: Offer[],
 }
 
-type Data = {
+type DataOffers = {
   offers: Offer[],
+  favoriteOffers: Offer[],
   isDataLoaded: boolean,
 }
 
-export type {User, MainScreen, RoomScreen, Data, State};
+export type {User, MainScreen, RoomScreen, DataOffers, State};

@@ -1,5 +1,5 @@
 import {ThunkActionResult} from '../types/action';
-import {setOffers, setComments, setNearbyOffers, requireAuthorization, requireLogout, setCurrentOffer} from './action';
+import {setOffers, setComments, setNearbyOffers, requireAuthorization, requireLogout, setCurrentOffer, setFavoriteOffers, updateFavoriteOffers, updateOffers} from './action';
 import {saveToken, dropToken, Token} from '../services/token';
 import {APIRoute, AuthorizationStatus} from '../const';
 import { Offer, OfferFromServer } from '../types/offer';
@@ -63,6 +63,13 @@ const fetchOffersAction = (): ThunkActionResult =>
       .then((response) => dispatch(setOffers(response)));
   };
 
+const fetchFavoriteOffersAction = (): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    await api.get<OfferFromServer[]>(APIRoute.Favorite)
+      .then((response) => response.data.map((offer) => adaptOfferToClient(offer)))
+      .then((response) => dispatch(setFavoriteOffers(response)));
+  };
+
 const fetchCurrentOfferAction = (currentOfferId: number): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     await api.get<OfferFromServer>(`${APIRoute.Offers}/${currentOfferId}`)
@@ -104,6 +111,16 @@ const addNewCommentAction = ({comment, rating}: CommentPost, currentOfferId: num
       .then((response) => dispatch(setComments(response)));
   };
 
+const changeFavoriteStatus = (currentOfferId: number, favoriteStatus: number): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    await api.post<OfferFromServer>(`${APIRoute.Favorite}/${currentOfferId}/${favoriteStatus}`)
+      .then((response) => adaptOfferToClient(response.data))
+      .then((response) => {
+        dispatch(updateOffers(response));
+        dispatch(updateFavoriteOffers(response));
+      });
+  };
+
 const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     const {data: {token}} = await api.post<{token: Token}>(APIRoute.Login, {email, password});
@@ -118,4 +135,4 @@ const logoutAction = (): ThunkActionResult =>
     dispatch(requireLogout());
   };
 
-export {fetchOffersAction,fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction, addNewCommentAction, checkAuthAction, loginAction, logoutAction};
+export {fetchOffersAction, fetchFavoriteOffersAction, fetchCommentsAction, fetchCurrentOfferAction, fetchNearbyOffersAction, addNewCommentAction, checkAuthAction, loginAction, logoutAction, changeFavoriteStatus};

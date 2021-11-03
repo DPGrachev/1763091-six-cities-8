@@ -1,11 +1,11 @@
-import { ActionType, AuthorizationStatus } from '../const';
+import { ActionType, AuthorizationStatus, CityName } from '../const';
 import { createAction } from '@reduxjs/toolkit';
 import { Offer } from '../types/offer';
 import { Review } from '../types/review';
 
 const setCity = createAction(
   ActionType.SetCity,
-  (cityName:string) => ({
+  (cityName: CityName) => ({
     payload: {
       currentCity: cityName,
     },
@@ -17,6 +17,33 @@ const setOffers = createAction(
   (offers: Offer[]) => ({
     payload: {
       offers,
+    },
+  }),
+);
+
+const updateOffers = createAction(
+  ActionType.UpdateOffers,
+  (offer: Offer) => ({
+    payload: {
+      offer,
+    },
+  }),
+);
+
+const setFavoriteOffers = createAction(
+  ActionType.SetFavoriteOffers,
+  (offers: Offer[]) => ({
+    payload: {
+      offers,
+    },
+  }),
+);
+
+const updateFavoriteOffers = createAction(
+  ActionType.UpdateFavoriteOffers,
+  (offer: Offer) => ({
+    payload: {
+      offer,
     },
   }),
 );
@@ -48,7 +75,7 @@ const setNearbyOffers = createAction(
   }),
 );
 
-const setSortOption = createAction(
+const setCurrentSortOption = createAction(
   ActionType.SetSortOption,
   (sortOption: string) => ({
     payload: {
@@ -66,4 +93,4 @@ const requireAuthorization = createAction(
 
 const requireLogout = createAction(ActionType.RequireLogout);
 
-export {setCity, setOffers, setCurrentOffer, setNearbyOffers, setComments, setSortOption, requireAuthorization, requireLogout};
+export {setCity, setOffers, updateOffers, setFavoriteOffers, updateFavoriteOffers, setCurrentOffer, setNearbyOffers, setComments, setCurrentSortOption, requireAuthorization, requireLogout};
