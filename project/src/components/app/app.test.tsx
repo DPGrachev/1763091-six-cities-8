@@ -6,27 +6,8 @@ import {configureMockStore} from '@jedmao/redux-mock-store';
 import {AuthorizationStatus, AppRoute, CityName, SortOption} from '../../const';
 import App from './app';
 import { offers, comments, offerWithFavoriteStatus } from '../../utils/mocks';
-import { State } from '../../types/state';
 
 const mockStore = configureMockStore();
-
-// USER: {
-//   authorizationStatus: AuthorizationStatus.Unknown,
-// },
-// DATA: {
-//   offers: [],
-//   favoriteOffers: [],
-//   isDataLoaded: false,
-// },
-// MAIN: {
-//   currentCity: CityName.Paris,
-//   currentSortOption: SortOption.Popular,
-// },
-// ROOM: {
-//   currentOffer : null,
-//   comments: [],
-//   nearbyOffers: [],
-// },
 
 const store  = mockStore({
   USER: {
