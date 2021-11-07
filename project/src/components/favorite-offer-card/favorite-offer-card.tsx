@@ -1,5 +1,5 @@
 import {Offer} from '../../types/offer';
-import { getRatingInStars } from '../../utils';
+import { getRatingInStars } from '../../utils/utils';
 import { changeFavoriteStatus } from '../../store/api-actions';
 import {useDispatch} from 'react-redux';
 
