@@ -9,6 +9,7 @@ import { AppRoute, AuthorizationStatus } from './const';
 import { fetchOffersAction, checkAuthAction } from './store/api-actions';
 import browserHistory from './browser-history';
 import { configureStore } from '@reduxjs/toolkit';
+import {Router as  BrowserRouter} from 'react-router-dom';
 
 const api = createAPI(
   () => store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth)),
@@ -31,7 +32,9 @@ store.dispatch(fetchOffersAction());
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserRouter history={browserHistory}>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));

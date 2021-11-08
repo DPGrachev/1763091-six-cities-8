@@ -4,7 +4,7 @@ import { AuthorizationStatus } from '../../const';
 import NewCommentForm from '../new-comment-form/new-comment-form';
 import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
-import { getRatingInStars } from '../../utils';
+import { getRatingInStars } from '../../utils/utils';
 import OffersList from '../offers-list/offers-list';
 import { fetchCurrentOfferAction, fetchCommentsAction, fetchNearbyOffersAction, addNewCommentAction } from '../../store/api-actions';
 import LoadingScreen from '../loading/loading';

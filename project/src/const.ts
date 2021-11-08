@@ -51,7 +51,7 @@ enum SortOption {
   TopRatedFirst = 'Top rated first',
 }
 
-const CityCoordinates = {
+const cityCoordinates = {
   [CityName.Paris] : {latitude: 48.85661, longitude: 2.351499, zoom: 13},
   [CityName.Amsterdam] : {latitude: 52.37454, longitude: 4.897976, zoom: 13},
   [CityName.Brussels] : {latitude: 50.846557, longitude: 4.351697, zoom: 13},
@@ -60,4 +60,4 @@ const CityCoordinates = {
   [CityName.Hamburg] : {latitude: 53.550341, longitude: 10.000654, zoom: 13},
 };
 
-export {AppRoute, AuthorizationStatus, ActionType, CityName, SortOption, APIRoute, CityCoordinates};
+export {AppRoute, AuthorizationStatus, ActionType, CityName, SortOption, APIRoute, cityCoordinates};
