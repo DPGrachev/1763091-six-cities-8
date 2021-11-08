@@ -45,7 +45,7 @@ const adaptOfferToClient = (offer: OfferFromServer): Offer =>
 const adaptReviewToClient = (review: ReviewFromServer): Review =>
   ({
     comment: review.comment,
-    date: review.date,
+    date: new Date(review.date),
     id: review.id,
     rating: review.rating,
     user: {

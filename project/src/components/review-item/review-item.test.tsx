@@ -5,7 +5,7 @@ import ReviewItem from './review-item';
 import { comments } from '../../utils/mocks';
 import dayjs from 'dayjs';
 
-const fakeComment = comments[0];
+const [fakeComment] = comments;
 describe('Component: ReviewItem', () => {
   it('should render correctly', () => {
     const history = createMemoryHistory();

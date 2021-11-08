@@ -23,7 +23,7 @@ function NewCommentForm({onSubmit} : NewCommentFormProps): JSX.Element {
 
   const handleSubmit = (evt: FormEvent<HTMLButtonElement>) => {
     evt.preventDefault();
-    if(commentPost.rating){
+    if(commentPost.rating && commentPost.comment.length >= 50){
       onSubmit(commentPost);
       setCommentPost({
         'comment': '',
