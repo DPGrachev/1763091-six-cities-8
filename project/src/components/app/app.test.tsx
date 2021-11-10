@@ -6,8 +6,20 @@ import {configureMockStore} from '@jedmao/redux-mock-store';
 import {AuthorizationStatus, AppRoute, CityName, SortOption} from '../../const';
 import App from './app';
 import { offers, comments, offerWithFavoriteStatus } from '../../utils/mocks';
+import {createAPI} from '../../services/api';
+import thunk, {ThunkDispatch} from 'redux-thunk';
+import {State} from '../../types/state';
+import {Action} from 'redux';
 
-const mockStore = configureMockStore();
+const onFakeUnauthorized = jest.fn();
+const onFakeNotFound = jest.fn();
+const api = createAPI(onFakeUnauthorized(),onFakeNotFound());
+const middlewares = [thunk.withExtraArgument(api)];
+const mockStore = configureMockStore<
+    State,
+    Action,
+    ThunkDispatch<State, typeof api, Action>
+  >(middlewares);
 
 const store  = mockStore({
   USER: {
@@ -37,6 +49,12 @@ const fakeApp = (
     </Router>
   </Provider>
 );
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useParams: () => ({
+    id: '1',
+  }),
+}));
 
 describe('Application Routing', () => {
   it('should render "MainScreen" when user navigate to "/"', () => {
@@ -54,24 +72,24 @@ describe('Application Routing', () => {
     expect(screen.getByText(/E-mail/i)).toBeInTheDocument();
   });
 
-  // it('should render "FavoritesScreen" when user navigate to "/favorites"', () => {
-  //   history.push(AppRoute.Favorites);
-  //   render(fakeApp);
+  it('should render "FavoritesScreen" when user navigate to "/favorites"', () => {
+    history.push(AppRoute.Favorites);
+    const {container} = render(fakeApp);
 
-  //   expect(screen.getByText(/Saved listing/i)).toBeInTheDocument();
-  //   expect(screen.getByAltText(/6 cities logo/i)).toBeInTheDocument();
-  // });
+    expect(screen.getByText(/Saved listing/i)).toBeInTheDocument();
+    expect(container.querySelector('.favorites__list')).toBeInTheDocument();
+  });
 
-  // it('should render "RoomScreen" when user navigate to "/offer/:id"', () => {
-  //   history.push(AppRoute.Room);
-  //   render(fakeApp);
+  it('should render "RoomScreen" when user navigate to "/offer/:id"', () => {
+    history.push(AppRoute.Room);
+    const {container} = render(fakeApp);
 
-  //   expect(screen.getByText(/To bookmarks/i)).toBeInTheDocument();
-  //   expect(screen.getByText(/Rating/i)).toBeInTheDocument();
-  //   expect(screen.getByText(/Bedrooms/i)).toBeInTheDocument();
-  //   expect(screen.getByText(/Meet the host/i)).toBeInTheDocument();
-  //   expect(screen.getByText(/Other places in the neighbourhood/i)).toBeInTheDocument();
-  // });
+    expect(screen.getByText(/Other places in the neighbourhood/i)).toBeInTheDocument();
+    expect(screen.getByText(/Meet the host/i)).toBeInTheDocument();
+    expect(container.querySelector('.near-places')).toBeInTheDocument();
+    expect(container.querySelector('.property__gallery-container')).toBeInTheDocument();
+    expect(container.querySelector('.property__container')).toBeInTheDocument();
+  });
 
   it('should render "NotFoundScreen" when user navigate to non-existent route', () => {
     history.push('/non-existent-route');

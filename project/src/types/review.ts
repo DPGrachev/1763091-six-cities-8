@@ -1,6 +1,6 @@
 type Review = {
   comment: string,
-  date: Date | string,
+  date: Date,
   id: number,
   rating: number,
   user: {
@@ -12,15 +12,15 @@ type Review = {
 };
 
 type ReviewFromServer = {
-  comment: string,
-  date: Date | string,
-  id: number,
-  rating: number,
-  user: {
+  'comment': string,
+  'date': string,
+  'id': number,
+  'rating': number,
+  'user': {
     'avatar_url': string,
-    id: number,
+    'id': number,
     'is_pro': boolean,
-    name: string
+    'name': string
   }
 };
 
