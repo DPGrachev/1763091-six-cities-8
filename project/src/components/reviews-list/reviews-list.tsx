@@ -1,4 +1,5 @@
 import {Review} from '../../types/review';
+import { sortDateDown } from '../../utils/utils';
 import ReviewItem from '../review-item/review-item';
 
 type ReviewsListProps = {
@@ -6,11 +7,16 @@ type ReviewsListProps = {
 }
 
 function ReviewsList ({reviews}:ReviewsListProps): JSX.Element {
+  const MAX_REVIEWS_COUNT = 10;
+  const comments = reviews.length > MAX_REVIEWS_COUNT
+    ? [...reviews].sort(sortDateDown).slice(0,MAX_REVIEWS_COUNT)
+    : [...reviews].sort(sortDateDown);
+
   return (
     <>
-      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
+      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
       <ul className="reviews__list">
-        {reviews.map((review) => <ReviewItem key={review.id} review={review}/>)}
+        {comments.map((review) => <ReviewItem key={review.id} review={review}/>)}
       </ul>
     </>);
 }

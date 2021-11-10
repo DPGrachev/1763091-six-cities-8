@@ -65,8 +65,22 @@ describe('Application Routing', () => {
   });
 
   it('should render "AuthScreen" when user navigate to "/login"', () => {
+    const storeForAuthScreen  = mockStore({
+      USER: {
+        authorizationStatus: AuthorizationStatus.NoAuth,
+      },
+      DATA: {
+        isDataLoaded: true,
+      },
+    });
+
     history.push(AppRoute.Login);
-    render(fakeApp);
+    render(
+      <Provider store={storeForAuthScreen}>
+        <Router history={history}>
+          <App />
+        </Router>
+      </Provider>);
 
     expect(screen.getByText(/Password/i)).toBeInTheDocument();
     expect(screen.getByText(/E-mail/i)).toBeInTheDocument();

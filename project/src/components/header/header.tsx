@@ -3,7 +3,7 @@ import {AppRoute} from '../../const';
 import { useSelector, useDispatch} from 'react-redux';
 import {getAuthorizationStatus} from '../../store/user-status/selectors';
 import { AuthorizationStatus } from '../../const';
-import { requireLogout } from '../../store/action';
+import { logoutAction } from '../../store/api-actions';
 
 type HeaderProps = {
   isLoginScreen? : boolean,
@@ -12,7 +12,7 @@ type HeaderProps = {
 function Header({isLoginScreen} : HeaderProps): JSX.Element {
   const authorizationStatus = useSelector(getAuthorizationStatus);
   const dispatch = useDispatch();
-  const handleClickSignOut = () => dispatch(requireLogout());
+  const handleClickSignOut = () => dispatch(logoutAction());
 
   return (
     <header className="header">

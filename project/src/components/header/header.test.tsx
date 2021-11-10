@@ -7,8 +7,20 @@ import Header from './header';
 import userEvent from '@testing-library/user-event';
 import { requireLogout } from '../../store/action';
 import { AuthorizationStatus } from '../../const';
+import {createAPI} from '../../services/api';
+import thunk, {ThunkDispatch} from 'redux-thunk';
+import {State} from '../../types/state';
+import {Action} from 'redux';
 
-const mockStore = configureMockStore();
+const onFakeUnauthorized = jest.fn();
+const onFakeNotFound = jest.fn();
+const api = createAPI(onFakeUnauthorized(),onFakeNotFound());
+const middlewares = [thunk.withExtraArgument(api)];
+const mockStore = configureMockStore<
+    State,
+    Action,
+    ThunkDispatch<State, typeof api, Action>
+  >(middlewares);
 const history = createMemoryHistory();
 
 describe('Component: Header', () => {

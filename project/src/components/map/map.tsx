@@ -9,7 +9,7 @@ type MapProps = {
   city: CityName,
   offers: Offer[],
   idActiveOffer?: number | null;
-  isRoomScreenMap?: boolean;
+  offerFromRoomScreen?: Offer;
 };
 
 const defaultCustomIcon = new Icon({
@@ -25,7 +25,7 @@ const currentCustomIcon = new Icon({
 });
 
 function Map(props: MapProps): JSX.Element {
-  const {city, offers, idActiveOffer, isRoomScreenMap} = props;
+  const {city, offers, idActiveOffer, offerFromRoomScreen} = props;
   const cityLocation = cityCoordinates[city];
 
   const mapRef = useRef(null);
@@ -47,12 +47,19 @@ function Map(props: MapProps): JSX.Element {
               : defaultCustomIcon,
           )
           .addTo(map);
-
       });
-    }
-  }, [cityLocation ,map, offers, idActiveOffer]);
+      if(offerFromRoomScreen){
+        const marker = new Marker({
+          lat: offerFromRoomScreen.location.latitude,
+          lng: offerFromRoomScreen.location.longitude,
+        });
 
-  return <section ref={mapRef} className={isRoomScreenMap ? 'property__map map' : 'cities__map map'}></section>;
+        marker.setIcon(currentCustomIcon).addTo(map);
+      }
+    }
+  }, [cityLocation ,map, offers, idActiveOffer, offerFromRoomScreen]);
+
+  return <section ref={mapRef} className={offerFromRoomScreen ? 'property__map map' : 'cities__map map'}></section>;
 }
 
 export default Map;

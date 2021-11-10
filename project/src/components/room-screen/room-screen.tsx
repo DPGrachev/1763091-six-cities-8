@@ -1,12 +1,12 @@
 import Header from '../header/header';
-import {useParams} from 'react-router-dom';
-import { AuthorizationStatus } from '../../const';
+import {useParams, useHistory} from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import NewCommentForm from '../new-comment-form/new-comment-form';
 import ReviewsList from '../reviews-list/reviews-list';
 import Map from '../map/map';
 import { getRatingInStars } from '../../utils/utils';
 import OffersList from '../offers-list/offers-list';
-import { fetchCurrentOfferAction, fetchCommentsAction, fetchNearbyOffersAction, addNewCommentAction } from '../../store/api-actions';
+import { fetchCurrentOfferAction, fetchCommentsAction, fetchNearbyOffersAction, addNewCommentAction, changeFavoriteStatus } from '../../store/api-actions';
 import LoadingScreen from '../loading/loading';
 import { useEffect } from 'react';
 import { CommentPost } from '../../types/review';
@@ -24,6 +24,7 @@ function RoomScreen(): JSX.Element {
   const currentOffer = useSelector(getCurrentOffer);
   const nearbyOffers = useSelector(getNearbyOffers);
   const comments = useSelector(getComments);
+  const history = useHistory();
   const authorizationStatus = useSelector(getAuthorizationStatus);
   const dispatch = useDispatch();
 
@@ -39,7 +40,15 @@ function RoomScreen(): JSX.Element {
   if(!currentOffer || currentOffer.id !== currentRoomId){
     return <LoadingScreen />;
   }
-  const {price, description, goods, title, city, isPremium, rating, type, bedrooms, maxAdults, images, host} = currentOffer;
+  const {id,price, description, goods, title, city, isPremium, rating, type, bedrooms, maxAdults, images, host, isFavorite} = currentOffer;
+  const handleFavoriteClick = () => {
+    if (authorizationStatus !== AuthorizationStatus.Auth){
+      history.push(AppRoute.Login);
+      return;
+    }
+    document.querySelector('.property__bookmark-button')?.classList.toggle('property__bookmark-button--active');
+    dispatch(changeFavoriteStatus(id, Number(!isFavorite)));
+  };
 
   return (
     <div className="page">
@@ -67,7 +76,7 @@ function RoomScreen(): JSX.Element {
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <button className="property__bookmark-button button" type="button">
+                <button className={`property__bookmark-button ${isFavorite ? 'property__bookmark-button--active' : ''} button`} type="button" onClick={handleFavoriteClick}>
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -131,7 +140,7 @@ function RoomScreen(): JSX.Element {
               </section>
             </div>
           </div>
-          <Map city={city.name} offers={nearbyOffers} isRoomScreenMap/>
+          <Map city={city.name} offers={nearbyOffers} offerFromRoomScreen={currentOffer}/>
         </section>
         <div className="container">
           <section className="near-places places">
