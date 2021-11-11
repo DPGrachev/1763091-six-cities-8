@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import { useSelector, useDispatch} from 'react-redux';
-import {getAuthorizationStatus} from '../../store/user-status/selectors';
+import {getAuthorizationStatus, getUserEmail} from '../../store/user-status/selectors';
 import { AuthorizationStatus } from '../../const';
 import { logoutAction } from '../../store/api-actions';
 
@@ -11,6 +11,7 @@ type HeaderProps = {
 
 function Header({isLoginScreen} : HeaderProps): JSX.Element {
   const authorizationStatus = useSelector(getAuthorizationStatus);
+  const userEmail = useSelector(getUserEmail);
   const dispatch = useDispatch();
   const handleClickSignOut = () => dispatch(logoutAction());
 
@@ -31,7 +32,7 @@ function Header({isLoginScreen} : HeaderProps): JSX.Element {
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     {authorizationStatus === AuthorizationStatus.Auth
-                      ? <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                      ? <span className="header__user-name user__name">{userEmail}</span>
                       : <span className="header__login">Sign in</span>}
                   </Link>
                 </li>

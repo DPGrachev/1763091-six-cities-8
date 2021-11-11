@@ -66,6 +66,15 @@ const setComments = createAction(
   }),
 );
 
+const setUserEmail = createAction(
+  ActionType.SetUserEmail,
+  (userEmail: string) => ({
+    payload: {
+      userEmail,
+    },
+  }),
+);
+
 const setNearbyOffers = createAction(
   ActionType.SetNearbyOffers,
   (offers: Offer[]) => ({
@@ -93,4 +102,4 @@ const requireAuthorization = createAction(
 
 const requireLogout = createAction(ActionType.RequireLogout);
 
-export {setCity, setOffers, updateOffers, setFavoriteOffers, updateFavoriteOffers, setCurrentOffer, setNearbyOffers, setComments, setCurrentSortOption, requireAuthorization, requireLogout};
+export {setCity, setOffers, updateOffers, setFavoriteOffers, updateFavoriteOffers, setCurrentOffer, setNearbyOffers, setComments, setCurrentSortOption, requireAuthorization, requireLogout, setUserEmail};

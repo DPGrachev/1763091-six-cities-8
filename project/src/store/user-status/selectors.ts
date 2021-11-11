@@ -4,4 +4,6 @@ import { AuthorizationStatus } from '../../const';
 
 const getAuthorizationStatus = (state: State) : AuthorizationStatus => state[NameSpace.User].authorizationStatus;
 
-export {getAuthorizationStatus};
+const getUserEmail = (state: State) : string => state[NameSpace.User].userEmail;
+
+export {getAuthorizationStatus, getUserEmail};

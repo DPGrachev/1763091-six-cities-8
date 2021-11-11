@@ -24,6 +24,7 @@ const enum ActionType {
   UpdateFavoriteOffers = 'data-offers/update-favorite-offers',
   RequireAuthorization = 'user-status/require-authorization',
   RequireLogout = 'user-status/require-logout',
+  SetUserEmail = 'user-status/set-user-email',
 }
 
 const enum APIRoute {
@@ -51,6 +52,14 @@ enum SortOption {
   TopRatedFirst = 'Top rated first',
 }
 
+const RatingToValues = {
+  Perfect : 5,
+  Good : 4,
+  NotBad : 3,
+  Badly : 2,
+  Terribly : 1,
+};
+
 const cityCoordinates = {
   [CityName.Paris] : {latitude: 48.85661, longitude: 2.351499, zoom: 13},
   [CityName.Amsterdam] : {latitude: 52.37454, longitude: 4.897976, zoom: 13},
@@ -60,4 +69,4 @@ const cityCoordinates = {
   [CityName.Hamburg] : {latitude: 53.550341, longitude: 10.000654, zoom: 13},
 };
 
-export {AppRoute, AuthorizationStatus, ActionType, CityName, SortOption, APIRoute, cityCoordinates};
+export {AppRoute, AuthorizationStatus, ActionType, CityName, SortOption, APIRoute, RatingToValues, cityCoordinates};
