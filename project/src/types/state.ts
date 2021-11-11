@@ -7,6 +7,7 @@ type State = RootState;
 
 type User = {
   authorizationStatus: AuthorizationStatus,
+  userEmail: string,
 }
 
 type MainScreen = {

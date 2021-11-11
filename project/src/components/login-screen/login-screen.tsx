@@ -1,16 +1,26 @@
 import { loginAction } from '../../store/api-actions';
 import Header from '../header/header';
 import { FormEvent, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
-import { AppRoute } from '../../const';
-import {useDispatch} from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus, CityName } from '../../const';
+import {useDispatch, useSelector} from 'react-redux';
+import { getRandomInt } from '../../utils/utils';
+import { getAuthorizationStatus } from '../../store/user-status/selectors';
+import { setCity } from '../../store/action';
+
+const getRandomCity = (array : CityName[]): CityName => array[getRandomInt(0, array.length - 1)];
 
 function LoginScreen(): JSX.Element {
-
+  const authorizationStatus = useSelector(getAuthorizationStatus);
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const history = useHistory();
   const dispatch = useDispatch();
+  const randomCityName = getRandomCity(Object.values(CityName));
+
+  if(authorizationStatus === AuthorizationStatus.Auth){
+    history.push(AppRoute.Main);
+  }
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -22,6 +32,10 @@ function LoginScreen(): JSX.Element {
       }));
       history.push(AppRoute.Main);
     }
+  };
+
+  const handleCityClick = () => {
+    dispatch(setCity(randomCityName));
   };
 
   return (
@@ -38,16 +52,16 @@ function LoginScreen(): JSX.Element {
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input ref={passwordRef} className="login__input form__input" type="password" name="password" placeholder="Password" required />
+                <input ref={passwordRef} className="login__input form__input" type="password" name="password" placeholder="Password" required pattern='[A-Za-zА-Яа-яЁё]{1,}[0-9]{1,}'/>
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="main.html">
-                <span>Amsterdam</span>
-              </a>
+              <Link className="locations__item-link" to={AppRoute.Main} onClick={handleCityClick}>
+                <span>{randomCityName}</span>
+              </Link>
             </div>
           </section>
         </div>

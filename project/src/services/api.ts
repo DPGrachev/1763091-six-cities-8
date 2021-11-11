@@ -24,7 +24,7 @@ const createAPI = (onUnauthorized: errorCallback, onNotFound: errorCallback): Ax
       const {response} = error;
 
       if (response?.status === HttpCode.Unauthorized) {
-        return onUnauthorized();
+        onUnauthorized();
       }
       if (response?.status === HttpCode.NotFound){
         return onNotFound();

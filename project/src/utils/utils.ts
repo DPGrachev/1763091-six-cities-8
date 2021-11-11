@@ -1,9 +1,18 @@
 import { Offer, OfferFromServer } from '../types/offer';
 import { Review, ReviewFromServer } from '../types/review';
+import dayjs from 'dayjs';
 
 const ONE_STAR_RATING_PERCENT = 20;
 
-const getRatingInStars = (rating: number): string => `${ONE_STAR_RATING_PERCENT*rating}%`;
+const getRatingInStars = (rating: number): string => `${ONE_STAR_RATING_PERCENT*Math.round(rating)}%`;
+
+const sortDateDown = (cardA : Review, cardB : Review) : number => dayjs(cardB.date).diff(dayjs(cardA.date));
+
+const disableNewCommentForm = () :void => document.querySelectorAll('form input, form textarea, form button').forEach((elem) => elem.setAttribute('disabled', 'disabled'));
+
+const enableNewCommentForm = () :void => document.querySelectorAll('form input, form textarea, form button').forEach((elem) => elem.removeAttribute('disabled'));
+
+const getRandomInt = (min :number, max :number) : number => Math.floor(Math.random( ) * (max - min + 1)) + min;
 
 const adaptOfferToServer = (offer: Offer): OfferFromServer =>
   ({
@@ -44,7 +53,7 @@ const adaptOfferToServer = (offer: Offer): OfferFromServer =>
 const adaptReviewToServer = (review: Review): ReviewFromServer =>
   ({
     comment: review.comment,
-    date: String(review.date),
+    date: review.date,
     id: review.id,
     rating: review.rating,
     user: {
@@ -55,4 +64,4 @@ const adaptReviewToServer = (review: Review): ReviewFromServer =>
     },
   });
 
-export {getRatingInStars, adaptOfferToServer,adaptReviewToServer};
+export {getRatingInStars, adaptOfferToServer,adaptReviewToServer, sortDateDown, disableNewCommentForm, enableNewCommentForm, getRandomInt};

@@ -1,10 +1,15 @@
 import {ThunkActionResult} from '../types/action';
-import {setOffers, setComments, setNearbyOffers, requireAuthorization, requireLogout, setCurrentOffer, setFavoriteOffers, updateFavoriteOffers, updateOffers} from './action';
+import {setOffers, setComments, setNearbyOffers, requireAuthorization, requireLogout, setCurrentOffer, setFavoriteOffers, updateFavoriteOffers, updateOffers, setUserEmail} from './action';
 import {saveToken, dropToken, Token} from '../services/token';
 import {APIRoute, AuthorizationStatus} from '../const';
 import { Offer, OfferFromServer } from '../types/offer';
 import {AuthData} from '../types/auth-data';
 import { CommentPost, Review, ReviewFromServer } from '../types/review';
+import {toast} from 'react-toastify';
+import { enableNewCommentForm } from '../utils/utils';
+
+const AUTH_FAIL_MESSAGE = 'Не забудьте авторизоваться';
+const ADD_NEW_COMMENT_FAIL_MESSAGE = 'Ошибка отправки комментария';
 
 const adaptOfferToClient = (offer: OfferFromServer): Offer =>
   ({
@@ -45,7 +50,7 @@ const adaptOfferToClient = (offer: OfferFromServer): Offer =>
 const adaptReviewToClient = (review: ReviewFromServer): Review =>
   ({
     comment: review.comment,
-    date: new Date(review.date),
+    date: review.date,
     id: review.id,
     rating: review.rating,
     user: {
@@ -96,19 +101,28 @@ const fetchNearbyOffersAction = (currentOfferId: number): ThunkActionResult =>
 
 const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    await api.get(APIRoute.Login)
-      .then((response) => {
-        if(response.data){
-          dispatch(requireAuthorization(AuthorizationStatus.Auth));
-        }
-      });
+    try {
+      await api.get(APIRoute.Login)
+        .then((response) => {
+          if(response.data){
+            dispatch(requireAuthorization(AuthorizationStatus.Auth));
+          }
+        });
+    } catch {
+      toast.info(AUTH_FAIL_MESSAGE);
+    }
   };
 
 const addNewCommentAction = ({comment, rating}: CommentPost, currentOfferId: number): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    await api.post<ReviewFromServer[]>(`${APIRoute.Comments}/${currentOfferId}`, {comment, rating})
-      .then((response) => response.data.map((review) => adaptReviewToClient(review)))
-      .then((response) => dispatch(setComments(response)));
+    try{
+      await api.post<ReviewFromServer[]>(`${APIRoute.Comments}/${currentOfferId}`, {comment, rating})
+        .then((response) => response.data.map((review) => adaptReviewToClient(review)))
+        .then((response) => dispatch(setComments(response)));
+    } catch {
+      toast.warn(ADD_NEW_COMMENT_FAIL_MESSAGE);
+    }
+    enableNewCommentForm();
   };
 
 const changeFavoriteStatus = (currentOfferId: number, favoriteStatus: number): ThunkActionResult =>
@@ -125,6 +139,7 @@ const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     const {data: {token}} = await api.post<{token: Token}>(APIRoute.Login, {email, password});
     saveToken(token);
+    dispatch(setUserEmail(email));
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
   };
 
