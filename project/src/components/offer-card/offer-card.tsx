@@ -49,9 +49,9 @@ function OfferCard(props: OfferCardProps): JSX.Element{
           </div>
       }
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="main.html">
+        <Link to={`/offer/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place"/>
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
